@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.martin.macekinternetofthings.MainActivity">
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.martin.macekinternetofthings.MainActivity"
+    tools:showIn="@layout/activity_main"
+    android:id="@+id/rl1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="tPokoj"
+        android:id="@+id/tpokoj"
+        android:layout_marginTop="29dp"
+        android:allowUndo="true"
+        android:editable="true"
+        android:singleLine="true"
+        android:layout_toEndOf="@+id/textView17"
+        android:layout_below="@+id/textView17" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar"
+        android:clickable="false"
+        android:focusable="false"
+        android:layout_alignTop="@+id/textView12"
+        android:layout_alignStart="@+id/seekBarBlue"
+        android:layout_alignParentEnd="true"
+        android:progress="10"
+        android:max="1023"
+        android:progressTint="#64dd17" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBarBlue"
+        android:max="1023"
+        android:progressTint="#304ffe"
+        android:layout_alignTop="@+id/textView10"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/textView10"
+        android:indeterminate="false"
+        android:progress="10" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBarRed"
+        android:max="1023"
+        android:progressTint="#d32f2f"
+        android:splitTrack="false"
+        android:layout_alignBottom="@+id/textView11"
+        android:layout_alignStart="@+id/seekBarBlue"
+        android:layout_alignParentEnd="true"
+        android:indeterminate="false"
+        android:progress="10" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switch1"
+        android:textSize="15dp"
+        android:singleLine="false"
+        android:textOn="Zap"
+        android:textOff="Vyp"
+        android:enabled="true"
+        android:showText="true"
+        android:layout_alignBottom="@+id/ventAlarm"
+        android:layout_alignEnd="@+id/textView19" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="BLUE"
+        android:id="@+id/textView10"
+        android:layout_below="@+id/seekBar"
+        android:layout_alignEnd="@+id/textView12"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="RED"
+        android:id="@+id/textView11"
+        android:layout_marginStart="26dp"
+        android:layout_below="@+id/textView13"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="GREEN"
+        android:id="@+id/textView12"
+        android:layout_below="@+id/textView11"
+        android:layout_alignEnd="@+id/textView11"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ovládání osvětlení"
+        android:id="@+id/textView13"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/switch1"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ovládání ventilace"
+        android:id="@+id/textView14"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textView13" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="tObyvák"
+        android:id="@+id/tobyvak"
+        android:singleLine="true"
+        android:layout_below="@+id/sparkview"
+        android:layout_alignStart="@+id/tpokoj" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="tVenek"
+        android:id="@+id/tvenek"
+        android:singleLine="true"
+        android:layout_alignBottom="@+id/textView20"
+        android:layout_toEndOf="@+id/textView17" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Teploměry"
+        android:id="@+id/textView17"
+        android:layout_below="@+id/button7"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Pokoj"
+        android:id="@+id/textView18"
+        android:layout_alignTop="@+id/tpokoj"
+        android:layout_toStartOf="@+id/textView17" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Obyvák"
+        android:id="@+id/textView19"
+        android:layout_below="@+id/sparkview"
+        android:layout_alignStart="@+id/textView18" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Venek"
+        android:id="@+id/textView20"
+        android:layout_below="@+id/sparkview2"
+        android:layout_alignStart="@+id/textView19" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="zhasnout vše"
+        android:id="@+id/button2"
+        android:textSize="12dp"
+        android:layout_alignTop="@+id/button7"
+        android:layout_alignStart="@+id/textView10"
+        android:layout_toStartOf="@+id/button7" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="rozsvítit vše"
+        android:id="@+id/button6"
+        android:textSize="12dp"
+        android:layout_below="@+id/textView10"
+        android:layout_alignStart="@+id/ventAlarm"
+        android:layout_alignEnd="@+id/seekBarBlue" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/ventAlarm"
+        android:textAlignment="center"
+        android:layout_below="@+id/textView14"
+        android:layout_alignEnd="@+id/tobyvak"
+        android:layout_toEndOf="@+id/textView14"
+        android:hint="nada" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="min"
+        android:id="@+id/textView"
+        android:layout_alignTop="@+id/textView15"
+        android:layout_toEndOf="@+id/tobyvak" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="vypnout po:"
+        android:id="@+id/textView15"
+        android:layout_alignTop="@+id/switch1"
+        android:layout_toStartOf="@+id/ventAlarm" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="výběr barvy"
+        android:id="@+id/button7"
+        android:textSize="12dp"
+        android:layout_below="@+id/textView10"
+        android:layout_alignStart="@+id/textView13"
+        android:layout_toStartOf="@+id/ventAlarm" />
+
+    <com.robinhood.spark.SparkView
+    android:id="@+id/sparkview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:spark_scrubEnabled="true"
+    android:minHeight="130dp"
+    android:layout_below="@+id/tpokoj"
+    android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp" />
+    <com.robinhood.spark.SparkView
+        android:id="@+id/sparkview2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:spark_scrubEnabled="true"
+        android:minHeight="130dp"
+        android:layout_below="@+id/tobyvak"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp" />
+    <com.robinhood.spark.SparkView
+        android:id="@+id/sparkview3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:spark_scrubEnabled="true"
+        android:minHeight="130dp"
+        android:layout_below="@+id/tvenek"
+        android:layout_toStartOf="@+id/textView"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_alignEnd="@+id/sparkview2" />
+
+
+
+</RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

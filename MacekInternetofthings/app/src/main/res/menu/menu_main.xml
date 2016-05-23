@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.martin.macekinternetofthings.MainActivity">
+    <item
+        android:id="@+id/PWMsettings"
+        android:orderInCategory="100"
+        android:title="LED module address"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Brainsettings"
+        android:orderInCategory="100"
+        android:title="IoT Brain address"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/notifTick"
+        android:orderInCategory="100"
+        android:title="Notification"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/about"
+        android:orderInCategory="100"
+        android:title="about"
+        app:showAsAction="never" />
+</menu>
