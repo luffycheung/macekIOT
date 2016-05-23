@@ -692,7 +692,7 @@ public class SparkView extends View implements ScrubGestureDetector.ScrubListene
             getParent().requestDisallowInterceptTouchEvent(true);
             int index = getNearestIndex(xPoints, x);
             if (scrubListener != null) {
-                scrubListener.onScrubbed(adapter.getItem(index));
+                scrubListener.onScrubbed(adapter.getItem(index), x);
             }
         }
 
@@ -702,7 +702,7 @@ public class SparkView extends View implements ScrubGestureDetector.ScrubListene
     @Override
     public void onScrubEnded() {
         scrubLinePath.reset();
-        if (scrubListener != null) scrubListener.onScrubbed(null);
+        if (scrubListener != null) scrubListener.onScrubbed(null, null);
         invalidate();
     }
 
@@ -714,7 +714,7 @@ public class SparkView extends View implements ScrubGestureDetector.ScrubListene
          * Indicates the user is currently scrubbing over the given value. A null value indicates
          * that the user has stopped scrubbing.
          */
-        void onScrubbed(Object value);
+        void onScrubbed(Object value, Float x);
     }
 
     private final DataSetObserver dataSetObserver = new DataSetObserver() {

@@ -70,6 +70,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.ServiceConfigurationError;
@@ -745,6 +746,9 @@ public class MainActivity extends AppCompatActivity {
         TextView max2 = (TextView) findViewById(R.id.tmax2);
         TextView min3 = (TextView) findViewById(R.id.tmin3);
         TextView max3 = (TextView) findViewById(R.id.tmax3);
+        TextView hod1 = (TextView) findViewById(R.id.thod1);
+        TextView hod2 = (TextView) findViewById(R.id.thod2);
+        TextView hod3 = (TextView) findViewById(R.id.thod3);
         ProgressBar prg = (ProgressBar) findViewById(R.id.FABpb);
         Switch sw = (Switch) findViewById(R.id.switch1);
         SparkView sparkView = (SparkView) findViewById(R.id.sparkview);
@@ -831,13 +835,20 @@ public class MainActivity extends AppCompatActivity {
             prg.setVisibility(View.INVISIBLE);
 
             if (connSucc) {
+                Calendar c = Calendar.getInstance();
+                final String time  = (Integer.toString(c.get(Calendar.HOUR_OF_DAY))+":"+ Integer.toString(c.get(Calendar.MINUTE)));
 
                 Snackbar.make(findViewById(android.R.id.content), "teploty úspěšně obnoveny", Snackbar.LENGTH_SHORT).show();
                 temp1.setText(response1 + " °C");
                 temp2.setText(response2 + " °C");
                 temp3.setText(response3 + " °C");
+                hod1.setText(time);
+                hod2.setText(time);
+                hod3.setText(time);
 
                 try {
+
+
                     float[] t1 = ArrayUtils.toPrimitive(teploty1.toArray(new Float[teploty1.size()]));
                     float[] t2 = ArrayUtils.toPrimitive(teploty2.toArray(new Float[teploty2.size()]));
                     float[] t3 = ArrayUtils.toPrimitive(teploty3.toArray(new Float[teploty3.size()]));
@@ -860,60 +871,84 @@ public class MainActivity extends AppCompatActivity {
                     min3.setText("Min: " + Collections.min(teploty2).toString() + " °C");
                     max3.setText("Max: " + Collections.max(teploty2).toString() + " °C");
 
+                    final float xIndex1= (float)(c1*0.001);
+                    final float xIndex2= (float)(c2*0.001);
+                    final float xIndex3= (float)(c3*0.001);
+
+
+
+                    sparkView.setScrubListener(new SparkView.OnScrubListener() {
+                        @Override
+                        public void onScrubbed(Object value, Float x) {
+
+
+                            String scrub = getString(R.string.scrub_format, value);
+                            if (value == null) {
+                                temp3.setText(response3 + " °C");
+                                hod1.setText(time);
+
+                            } else {
+                                String X = getString(R.string.scrub_format, Math.round(x*xIndex1));
+                                temp3.setText(scrub + " °C");
+                                hod1.setText(X+"h");
+                            }
+
+                        }
+
+                    });
+                    sparkView1.setScrubListener(new SparkView.OnScrubListener() {
+                        @Override
+                        public void onScrubbed(Object value, Float x) {
+
+
+                            String scrub = getString(R.string.scrub_format, value);
+                            if (value == null) {
+                                temp1.setText(response1 + " °C");
+                                hod2.setText(time);
+
+                            } else {
+
+                                String X = getString(R.string.scrub_format, Math.round(x*xIndex2));
+                                temp1.setText(scrub + " °C");
+                                hod2.setText(X+"h");
+                            }
+
+                        }
+
+                    });
+                    sparkView2.setScrubListener(new SparkView.OnScrubListener() {
+                        @Override
+                        public void onScrubbed(Object value, Float x) {
+
+
+                            String scrub = getString(R.string.scrub_format, value);
+                            if (value == null) {
+                                temp2.setText(response2 + " °C");
+                                hod3.setText(time);
+
+                            } else {
+                                String X = getString(R.string.scrub_format, Math.round(x*xIndex3));
+                                temp2.setText(scrub + " °C");
+                                hod3.setText(X+"h");
+                            }
+
+                        }
+
+                    });
+
+
+
+
+
+
+
                 } catch (NullPointerException e1) {
                 }
 
 
                 //  sparkView.setScrubEnabled(true);
                 // sparkView.setAnimateChanges(true);
-                sparkView.setScrubListener(new SparkView.OnScrubListener() {
-                    @Override
-                    public void onScrubbed(Object value) {
 
-
-                        String scrub = getString(R.string.scrub_format, value);
-                        if (value == null) {
-                            temp3.setText(response3 + " °C");
-
-                        } else {
-                            temp3.setText(scrub + " °C");
-                        }
-
-                    }
-
-                });
-                sparkView1.setScrubListener(new SparkView.OnScrubListener() {
-                    @Override
-                    public void onScrubbed(Object value) {
-
-
-                        String scrub = getString(R.string.scrub_format, value);
-                        if (value == null) {
-                            temp1.setText(response1 + " °C");
-
-                        } else {
-                            temp1.setText(scrub + " °C");
-                        }
-
-                    }
-
-                });
-                sparkView2.setScrubListener(new SparkView.OnScrubListener() {
-                    @Override
-                    public void onScrubbed(Object value) {
-
-
-                        String scrub = getString(R.string.scrub_format, value);
-                        if (value == null) {
-                            temp2.setText(response2 + " °C");
-
-                        } else {
-                            temp2.setText(scrub + " °C");
-                        }
-
-                    }
-
-                });
 
                 sw.setChecked(sta);
             }else

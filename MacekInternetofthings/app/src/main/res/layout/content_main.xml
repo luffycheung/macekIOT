@@ -30,13 +30,14 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="tPokoj"
         android:id="@+id/tpokoj"
-        android:layout_marginTop="31dp"
         android:allowUndo="true"
         android:editable="true"
         android:singleLine="true"
         android:layout_marginLeft="10dp"
         android:layout_below="@+id/textView17"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:textAlignment="center" />
 
     <SeekBar
         android:layout_width="wrap_content"
@@ -147,7 +148,8 @@
         android:id="@+id/tobyvak"
         android:singleLine="true"
         android:layout_below="@+id/sparkview"
-        android:layout_alignStart="@+id/tpokoj" />
+        android:layout_alignStart="@+id/tpokoj"
+        android:textAlignment="center" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -157,7 +159,8 @@
         android:id="@+id/tvenek"
         android:singleLine="true"
         android:layout_alignBottom="@+id/textView20"
-        android:layout_alignStart="@+id/tobyvak" />
+        android:layout_alignStart="@+id/tobyvak"
+        android:textAlignment="center" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -178,7 +181,8 @@
         android:id="@+id/textView18"
         android:layout_alignTop="@+id/tpokoj"
         android:layout_alignStart="@+id/button2"
-        android:layout_marginLeft="20dp" />
+        android:layout_marginLeft="20dp"
+        android:textSize="23dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -187,7 +191,8 @@
         android:text="Obyvák"
         android:id="@+id/textView19"
         android:layout_below="@+id/sparkview"
-        android:layout_alignStart="@+id/textView18" />
+        android:layout_alignStart="@+id/textView18"
+        android:textSize="23dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -196,7 +201,8 @@
         android:text="Venek"
         android:id="@+id/textView20"
         android:layout_below="@+id/sparkview2"
-        android:layout_alignStart="@+id/textView19" />
+        android:layout_alignStart="@+id/textView19"
+        android:textSize="23dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -273,7 +279,7 @@
     android:minHeight="130dp"
     android:layout_below="@+id/tpokoj"
     android:layout_alignParentEnd="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="15dp" />
     <com.example.martin.macekinternetofthings.SparkView
         android:id="@+id/sparkview2"
@@ -283,7 +289,7 @@
         android:minHeight="130dp"
         android:layout_below="@+id/tobyvak"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="15dp" />
     <com.example.martin.macekinternetofthings.SparkView
         android:id="@+id/sparkview3"
@@ -293,7 +299,7 @@
         android:minHeight="130dp"
         android:layout_below="@+id/tvenek"
         android:layout_toStartOf="@+id/textView"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="15dp"
         android:layout_alignEnd="@+id/sparkview2" />
 
@@ -301,7 +307,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="0"
+        android:text="0h"
         android:id="@+id/textView21"
         android:layout_alignBottom="@+id/sparkview"
         android:layout_alignParentStart="true"
@@ -345,7 +351,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="0"
+        android:text="0h"
         android:id="@+id/textView22"
         android:layout_marginLeft="5dp"
         android:layout_alignBottom="@+id/sparkview2"
@@ -356,7 +362,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="0"
+        android:text="0h"
         android:id="@+id/textView23"
         android:layout_marginLeft="5dp"
         android:layout_alignBottom="@+id/sparkview3"
@@ -418,6 +424,39 @@
         android:id="@+id/tmin3"
         android:layout_below="@+id/tmax3"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/thod2"
+        android:textAlignment="center"
+        android:layout_below="@+id/tobyvak"
+        android:layout_alignStart="@+id/tobyvak"
+        android:layout_alignEnd="@+id/tobyvak" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/thod1"
+        android:textAlignment="center"
+        android:layout_below="@+id/tpokoj"
+        android:layout_alignStart="@+id/tpokoj"
+        android:layout_alignEnd="@+id/tpokoj" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/thod3"
+        android:textAlignment="center"
+        android:layout_below="@+id/tvenek"
+        android:layout_alignEnd="@+id/tvenek"
+        android:layout_alignStart="@+id/tvenek" />
 
 
 </RelativeLayout>

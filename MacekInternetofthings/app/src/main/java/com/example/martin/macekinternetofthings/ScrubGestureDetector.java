@@ -23,7 +23,7 @@ import android.view.View;
 /**
  * Exposes simple methods for detecting scrub events.
  */
-class ScrubGestureDetector implements View.OnTouchListener {
+public class ScrubGestureDetector implements View.OnTouchListener {
     static final long LONG_PRESS_TIMEOUT_MS = 100;
 
     private final ScrubListener scrubListener;
@@ -31,7 +31,7 @@ class ScrubGestureDetector implements View.OnTouchListener {
     private final Handler handler;
 
     private boolean enabled;
-    private float downX, downY;
+    public static float downX, downY;
 
     public ScrubGestureDetector(ScrubListener scrubListener, Handler handler, float touchSlop) {
         if (scrubListener == null || handler == null) {
