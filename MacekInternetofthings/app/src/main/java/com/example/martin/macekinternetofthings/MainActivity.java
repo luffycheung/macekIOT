@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private String response_sw = "aa";
     private String response_tp;
     private Integer lastcolor;
-    public static float[]numb=new float[2];
+    public static float[]numb=new float[3];
     Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,8 +133,10 @@ public class MainActivity extends AppCompatActivity {
         sparkView1.setLineColor(getResources().getColor(R.color.colorGraph2));
         sparkView2.setLineColor(getResources().getColor(R.color.colorGraph3));
 
-
-
+        numb[0]=2;
+        numb[1]=1;
+        numb[2]=3;
+        sparkView.setAdapter(new MyAdapter(numb));
 
 
 
@@ -351,10 +353,9 @@ public class MainActivity extends AppCompatActivity {
                 new ZjistitTeploty().execute(SERVER_IP1,90,"JSONteploty");
             }
         });
-
         myFab.performClick();
         command_sw = "SWITCH1";
-        //new Thread(new SwitchThread()).start();
+       // new Thread(new SwitchThread()).start();
 
 
         new Thread(new ServiceStartThread()).start();
