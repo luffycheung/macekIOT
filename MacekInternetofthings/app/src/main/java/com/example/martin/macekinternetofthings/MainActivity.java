@@ -70,6 +70,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Collections;
 import java.util.List;
 import java.util.ServiceConfigurationError;
 
@@ -738,6 +739,12 @@ public class MainActivity extends AppCompatActivity {
         TextView cas1 = (TextView) findViewById(R.id.casView1);
         TextView cas2 = (TextView) findViewById(R.id.casView2);
         TextView cas3 = (TextView) findViewById(R.id.casView3);
+        TextView min1 = (TextView) findViewById(R.id.tmin1);
+        TextView max1 = (TextView) findViewById(R.id.tmax1);
+        TextView min2 = (TextView) findViewById(R.id.tmin2);
+        TextView max2 = (TextView) findViewById(R.id.tmax2);
+        TextView min3 = (TextView) findViewById(R.id.tmin3);
+        TextView max3 = (TextView) findViewById(R.id.tmax3);
         ProgressBar prg = (ProgressBar) findViewById(R.id.FABpb);
         Switch sw = (Switch) findViewById(R.id.switch1);
         SparkView sparkView = (SparkView) findViewById(R.id.sparkview);
@@ -840,12 +847,18 @@ public class MainActivity extends AppCompatActivity {
                     sparkView2.setAdapter(new MyAdapter(t2));
 
                     Integer c1=teploty3.size();
-                    cas1.setText(c1.toString());
+                    cas1.setText(c1.toString() + "h");
                     Integer c2=teploty1.size();
-                    cas2.setText(c2.toString());
+                    cas2.setText(c2.toString() + "h");
                     Integer c3=teploty2.size();
-                    cas3.setText(c3.toString());
+                    cas3.setText(c3.toString() + "h");
 
+                    min1.setText("Min: " + Collections.min(teploty3).toString() + " °C");
+                    max1.setText("Max: " + Collections.max(teploty3).toString() + " °C");
+                    min2.setText("Min: " + Collections.min(teploty1).toString() + " °C");
+                    max2.setText("Max: " + Collections.max(teploty1).toString() + " °C");
+                    min3.setText("Min: " + Collections.min(teploty2).toString() + " °C");
+                    max3.setText("Max: " + Collections.max(teploty2).toString() + " °C");
 
                 } catch (NullPointerException e1) {
                 }
