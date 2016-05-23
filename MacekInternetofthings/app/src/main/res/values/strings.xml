@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Macek IoT</string>
+    <string name="action_settings">Settings</string>
+    <string name="scrub_format">%1$s</string>
+</resources>

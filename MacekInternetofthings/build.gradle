@@ -1,0 +1,36 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.0'
+
+
+             classpath 'org.ajoberstar:gradle-git:0.2.3'
+        }
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+import org.ajoberstar.gradle.git.tasks.*
+
+task cloneGitRepo(type: GitClone) {
+    def destination = file("build/repo")
+    uri = "github.com/robinhood/spark.git"
+    destinationPath = destination
+    bare = false
+    enabled = !destination.exists() //to clone only once
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
