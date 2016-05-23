@@ -350,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.FAB);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                new ZjistitTeploty().execute(SERVER_IP1,90,"JSONteploty");
+                new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
             }
         });
         myFab.performClick();
@@ -395,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRestart(){
         super.onRestart();
 
-        new ZjistitTeploty().execute(SERVER_IP1,90,"JSONteploty");
+        new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
 
     }
 
@@ -735,6 +735,9 @@ public class MainActivity extends AppCompatActivity {
         TextView temp1 = (TextView) findViewById(R.id.tobyvak);
         TextView temp2 = (TextView) findViewById(R.id.tvenek);
         TextView temp3 = (TextView) findViewById(R.id.tpokoj);
+        TextView cas1 = (TextView) findViewById(R.id.casView1);
+        TextView cas2 = (TextView) findViewById(R.id.casView2);
+        TextView cas3 = (TextView) findViewById(R.id.casView3);
         ProgressBar prg = (ProgressBar) findViewById(R.id.FABpb);
         Switch sw = (Switch) findViewById(R.id.switch1);
         SparkView sparkView = (SparkView) findViewById(R.id.sparkview);
@@ -819,78 +822,101 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             prg.setVisibility(View.INVISIBLE);
-            Snackbar.make(findViewById(android.R.id.content), "teploty úspěšně obnoveny", Snackbar.LENGTH_SHORT).show();
-            temp1.setText(response1 + " °C");
-            temp2.setText(response2 + " °C");
-            temp3.setText(response3 + " °C");
-            float[] t1 = ArrayUtils.toPrimitive(teploty1.toArray(new Float[teploty1.size()]));
-            float[] t2 = ArrayUtils.toPrimitive(teploty2.toArray(new Float[teploty2.size()]));
-            float[] t3 = ArrayUtils.toPrimitive(teploty3.toArray(new Float[teploty3.size()]));
+
+            if (connSucc) {
+
+                Snackbar.make(findViewById(android.R.id.content), "teploty úspěšně obnoveny", Snackbar.LENGTH_SHORT).show();
+                temp1.setText(response1 + " °C");
+                temp2.setText(response2 + " °C");
+                temp3.setText(response3 + " °C");
+
+                try {
+                    float[] t1 = ArrayUtils.toPrimitive(teploty1.toArray(new Float[teploty1.size()]));
+                    float[] t2 = ArrayUtils.toPrimitive(teploty2.toArray(new Float[teploty2.size()]));
+                    float[] t3 = ArrayUtils.toPrimitive(teploty3.toArray(new Float[teploty3.size()]));
+
+                    sparkView.setAdapter(new MyAdapter(t3));
+                    sparkView1.setAdapter(new MyAdapter(t1));
+                    sparkView2.setAdapter(new MyAdapter(t2));
+
+                    Integer c1=teploty3.size();
+                    cas1.setText(c1.toString());
+                    Integer c2=teploty1.size();
+                    cas2.setText(c2.toString());
+                    Integer c3=teploty2.size();
+                    cas3.setText(c3.toString());
 
 
-
-
-
-
-
-            sparkView.setAdapter(new MyAdapter(t3));
-            sparkView1.setAdapter(new MyAdapter(t1));
-            sparkView2.setAdapter(new MyAdapter(t2));
-
-
-
-          //  sparkView.setScrubEnabled(true);
-           // sparkView.setAnimateChanges(true);
-            sparkView.setScrubListener(new SparkView.OnScrubListener() {
-                @Override
-                public void onScrubbed(Object value) {
-
-
-                    String scrub = getString(R.string.scrub_format, value);
-                    if (value == null) {
-                        temp3.setText(response3 + " °C");
-
-                    }else{
-                        temp3.setText(scrub + " °C");
-                    }
-
+                } catch (NullPointerException e1) {
                 }
 
-            });
-            sparkView1.setScrubListener(new SparkView.OnScrubListener() {
-                @Override
-                public void onScrubbed(Object value) {
+
+                //  sparkView.setScrubEnabled(true);
+                // sparkView.setAnimateChanges(true);
+                sparkView.setScrubListener(new SparkView.OnScrubListener() {
+                    @Override
+                    public void onScrubbed(Object value) {
 
 
-                    String scrub = getString(R.string.scrub_format, value);
-                    if (value == null) {
-                        temp1.setText(response1 + " °C");
+                        String scrub = getString(R.string.scrub_format, value);
+                        if (value == null) {
+                            temp3.setText(response3 + " °C");
 
-                    }else{
-                        temp1.setText(scrub + " °C");
+                        } else {
+                            temp3.setText(scrub + " °C");
+                        }
+
                     }
 
-                }
-
-            });
-            sparkView2.setScrubListener(new SparkView.OnScrubListener() {
-                @Override
-                public void onScrubbed(Object value) {
+                });
+                sparkView1.setScrubListener(new SparkView.OnScrubListener() {
+                    @Override
+                    public void onScrubbed(Object value) {
 
 
-                    String scrub = getString(R.string.scrub_format, value);
-                    if (value == null) {
-                        temp2.setText(response2 + " °C");
+                        String scrub = getString(R.string.scrub_format, value);
+                        if (value == null) {
+                            temp1.setText(response1 + " °C");
 
-                    }else{
-                        temp2.setText(scrub + " °C");
+                        } else {
+                            temp1.setText(scrub + " °C");
+                        }
+
                     }
 
-                }
+                });
+                sparkView2.setScrubListener(new SparkView.OnScrubListener() {
+                    @Override
+                    public void onScrubbed(Object value) {
 
-            });
 
-            sw.setChecked(sta);
+                        String scrub = getString(R.string.scrub_format, value);
+                        if (value == null) {
+                            temp2.setText(response2 + " °C");
+
+                        } else {
+                            temp2.setText(scrub + " °C");
+                        }
+
+                    }
+
+                });
+
+                sw.setChecked(sta);
+            }else
+
+            {
+                Snackbar snackbar = Snackbar
+                        .make(findViewById(android.R.id.content), "ERROR: nemohl jsem najít server!", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
+
+                            }
+                        });
+                snackbar.show();
+            }
             super.onPostExecute(result);
         }
 

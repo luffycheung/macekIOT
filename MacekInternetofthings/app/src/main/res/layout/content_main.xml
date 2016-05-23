@@ -297,6 +297,49 @@
         android:layout_marginBottom="15dp"
         android:layout_alignEnd="@+id/sparkview2" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="0"
+        android:id="@+id/textView21"
+        android:layout_alignBottom="@+id/sparkview"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="xH"
+        android:id="@+id/casView1"
+        android:layout_alignBottom="@+id/sparkview"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="xH"
+        android:id="@+id/casView2"
+        android:layout_marginRight="5dp"
+        android:layout_alignBottom="@+id/sparkview2"
+        android:layout_alignEnd="@+id/casView1"
+        android:layout_marginBottom="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="xH"
+        android:id="@+id/casView3"
+        android:layout_marginRight="5dp"
+        android:layout_alignBottom="@+id/sparkview3"
+        android:layout_alignEnd="@+id/seekBarBlue"
+        android:layout_marginBottom="5dp" />
 
 
 </RelativeLayout>
