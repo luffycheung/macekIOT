@@ -256,7 +256,7 @@
         android:layout_alignStart="@+id/textView13"
         android:layout_toStartOf="@+id/ventAlarm" />
 
-    <com.robinhood.spark.SparkView
+    <com.example.martin.macekinternetofthings.SparkView
     android:id="@+id/sparkview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -266,7 +266,7 @@
     android:layout_alignParentEnd="true"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp" />
-    <com.robinhood.spark.SparkView
+    <com.example.martin.macekinternetofthings.SparkView
         android:id="@+id/sparkview2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -276,7 +276,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp" />
-    <com.robinhood.spark.SparkView
+    <com.example.martin.macekinternetofthings.SparkView
         android:id="@+id/sparkview3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

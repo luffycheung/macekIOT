@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.robinhood.spark;
+package com.example.martin.macekinternetofthings;
 
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
@@ -99,7 +99,7 @@ public abstract class SparkAdapter {
      * to compare the rest of the graph's points against.
      */
     public boolean hasBaseLine() {
-        return false;
+        return true;
     }
 
     /**

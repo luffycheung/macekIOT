@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.robinhood.spark;
+package com.example.martin.macekinternetofthings;
 
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
@@ -40,7 +40,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * A {@link SparkView} is a simplified line chart with no axes.
+ * A {@link com.robinhood.spark.SparkView} is a simplified line chart with no axes.
  */
 public class SparkView extends View implements ScrubGestureDetector.ScrubListener {
     private static final String TAG = "Spark";

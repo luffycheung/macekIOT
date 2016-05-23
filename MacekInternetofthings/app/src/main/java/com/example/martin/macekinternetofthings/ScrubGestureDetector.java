@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.robinhood.spark;
+package com.example.martin.macekinternetofthings;
 
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -24,7 +24,7 @@ import android.view.View;
  * Exposes simple methods for detecting scrub events.
  */
 class ScrubGestureDetector implements View.OnTouchListener {
-    static final long LONG_PRESS_TIMEOUT_MS = 250;
+    static final long LONG_PRESS_TIMEOUT_MS = 180;
 
     private final ScrubListener scrubListener;
     private final float touchSlop;

@@ -3,4 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="spark_line_width">2dp</dimen>
+    <dimen name="spark_corner_radius">3dp</dimen>
+    <dimen name="spark_base_line_width">1dp</dimen>
+    <dimen name="spark_scrub_line_width">2dp</dimen>
 </resources>
