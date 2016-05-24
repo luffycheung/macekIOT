@@ -92,43 +92,38 @@ public class MainActivity extends AppCompatActivity {
     //StringBuffer response = new StringBuffer();
     private String response_sw = "aa";
     private String response_tp;
-    private Integer lastcolor;
+    private Integer lastcolor = Color.rgb(0,30,255);
     public static float[]numb=new float[3];
     Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setSubtitle("internet of things controller");
 
-        /*final EditText input = new EditText(MainActivity.this);
-        final EditText input2 = new EditText(MainActivity.this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setLayoutParams(lp);
-        input2.setLayoutParams(lp);*/
-        lastcolor = Color.rgb(0,30,255);
-
-
-
-
-
-        Switch sw = (Switch) findViewById(R.id.switch1);
-
-        Button off = (Button) findViewById(R.id.button2);
-
-        Button selectClr = (Button) findViewById(R.id.button7);
-
-        Button all = (Button) findViewById(R.id.button6);
-
         final int delay = 90;
+
+        //region findView
+
+        final SeekBar seekBarG = (SeekBar) findViewById(R.id.seekBar);
+        final SeekBar seekBarB = (SeekBar) findViewById(R.id.seekBarBlue);
+        final SeekBar seekBarR = (SeekBar) findViewById(R.id.seekBarRed);
+        final TextView testtxt = (TextView) findViewById(R.id.textView12);
+        final EditText ventalarm = (EditText) findViewById(R.id.ventAlarm);
         final SparkView sparkView = (SparkView) findViewById(R.id.sparkview);
         final SparkView sparkView1 = (SparkView) findViewById(R.id.sparkview2);
-       final SparkView sparkView2 = (SparkView) findViewById(R.id.sparkview3);
+        final SparkView sparkView2 = (SparkView) findViewById(R.id.sparkview3);
+
+        Switch sw = (Switch) findViewById(R.id.switch1);
+        Button off = (Button) findViewById(R.id.button2);
+        Button selectClr = (Button) findViewById(R.id.button7);
+        Button all = (Button) findViewById(R.id.button6);
+        Button test = (Button) findViewById(R.id.button);
+
+        //endregion
+
 
         sparkView1.setLineColor(getResources().getColor(R.color.colorGraph2));
         sparkView2.setLineColor(getResources().getColor(R.color.colorGraph3));
@@ -138,16 +133,8 @@ public class MainActivity extends AppCompatActivity {
         numb[2]=3;
         sparkView.setAdapter(new MyAdapter(numb));
 
-        Button test = (Button) findViewById(R.id.button);
 
-
-
-        final SeekBar seekBarG = (SeekBar) findViewById(R.id.seekBar);
-        final SeekBar seekBarB = (SeekBar) findViewById(R.id.seekBarBlue);
-        final SeekBar seekBarR = (SeekBar) findViewById(R.id.seekBarRed);
-        final TextView testtxt = (TextView) findViewById(R.id.textView12);
-        final EditText ventalarm = (EditText) findViewById(R.id.ventAlarm);
-        //seekBar1.setOnSeekBarChangeListener(new yourListener());
+        //region SEEKBARY
         seekBarG.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int prevVal;
             @Override
@@ -258,9 +245,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        //endregion
 
-
-
+        //region BUTTONY
 
         off.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -355,11 +342,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         myFab.performClick();
-        command_sw = "SWITCH1";
-       // new Thread(new SwitchThread()).start();
 
 
-        new Thread(new ServiceStartThread()).start();
+
+
 
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -394,8 +380,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-
+        //endregion
+        new Thread(new ServiceStartThread()).start();
     }
 
 
@@ -407,7 +393,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    //region THREADY
 
     class SwitchThread implements Runnable {
 
@@ -458,79 +444,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    class TempThread implements Runnable {
-
-
-        public void run() {
-
-            try {
-
-
-
-
-
-
-                Socket socket = new Socket();
-                socket.connect(new InetSocketAddress(InetAddress.getByName(SERVER_IP1),SERVERPORT1),1000);
-                socket.setSoTimeout(2000);
-                PrintWriter out = new PrintWriter(new BufferedWriter(
-                        new OutputStreamWriter(socket.getOutputStream())),
-                        true);
-                out.println(command);
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-
-
-
-
-
-
-
-                char [] data = new char[256];
-
-                in.read(data, 0, data.length);
-
-                response_tp = new String(data);
-
-
-
-                //in.reset();
-                socket.close();
-
-            } catch (UnknownHostException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-
-        }
-
-
-
-    }
-    class IOTdialog implements Runnable {
-
-
-        public void run() {
-
-
-
-
-
-        }
-    }
-
-
     class PWMThread implements Runnable {
 
 
         public void run() {
 
             try {
-
-
-
-
 
 
 
@@ -587,8 +506,9 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+    //endregion
 
-
+    //region MENU
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -597,10 +517,6 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
-
-
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -739,6 +655,10 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    //endregion
+
+
     private class ZjistitTeploty extends AsyncTask<Object, Void, String> {
         TextView temp1 = (TextView) findViewById(R.id.tobyvak);
         TextView temp2 = (TextView) findViewById(R.id.tvenek);
