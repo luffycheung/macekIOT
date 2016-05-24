@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -340,9 +341,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.FAB);
+        final FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.FAB);
+
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                myFab.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotate));
                 new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
             }
         });
@@ -769,7 +772,7 @@ public class MainActivity extends AppCompatActivity {
                 Calendar c = Calendar.getInstance();
                 final String time  = (Integer.toString(c.get(Calendar.HOUR_OF_DAY))+":"+ Integer.toString(c.get(Calendar.MINUTE)));
 
-                Snackbar.make(findViewById(android.R.id.content), "teploty úspěšně obnoveny", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.clayout), "teploty úspěšně obnoveny", Snackbar.LENGTH_SHORT).show();
                 temp1.setText(response1 + " °C");
                 temp2.setText(response2 + " °C");
                 temp3.setText(response3 + " °C");
@@ -886,7 +889,7 @@ public class MainActivity extends AppCompatActivity {
 
             {
                 Snackbar snackbar = Snackbar
-                        .make(findViewById(android.R.id.content), "ERROR: nemohl jsem najít server!", Snackbar.LENGTH_INDEFINITE)
+                        .make(findViewById(R.id.clayout), "ERROR: nemohl jsem najít server!", Snackbar.LENGTH_INDEFINITE)
                         .setAction("RETRY", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
