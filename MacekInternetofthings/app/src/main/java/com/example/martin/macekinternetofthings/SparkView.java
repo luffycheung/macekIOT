@@ -182,9 +182,9 @@ public class SparkView extends View implements ScrubGestureDetector.ScrubListene
             final float y = scaleHelper.getY(adapter.getY(i));
 
             if (i == 0) {
-                sparkPath.moveTo(x, y);
+                sparkPath.moveTo(x, y*(float)1.8);
             } else {
-                sparkPath.lineTo(x, y);
+                sparkPath.lineTo(x, y*(float)1.8);
             }
 
             if (scrubEnabled) {

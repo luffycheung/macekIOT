@@ -34,10 +34,11 @@
         android:editable="true"
         android:singleLine="true"
         android:layout_marginLeft="10dp"
-        android:layout_below="@+id/textView17"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:textAlignment="center" />
+        android:textAlignment="viewStart"
+        android:layout_below="@+id/textView17"
+        android:layout_alignEnd="@+id/textView17"
+        android:layout_marginRight="25dp" />
 
     <SeekBar
         android:layout_width="wrap_content"
@@ -148,9 +149,9 @@
         android:text="tObyvák"
         android:id="@+id/tobyvak"
         android:singleLine="true"
+        android:textAlignment="viewStart"
         android:layout_below="@+id/sparkview"
-        android:layout_alignStart="@+id/tpokoj"
-        android:textAlignment="center" />
+        android:layout_alignEnd="@+id/thod1" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -159,9 +160,9 @@
         android:text="tVenek"
         android:id="@+id/tvenek"
         android:singleLine="true"
+        android:textAlignment="viewStart"
         android:layout_alignBottom="@+id/textView20"
-        android:layout_alignStart="@+id/tobyvak"
-        android:textAlignment="center" />
+        android:layout_alignEnd="@+id/thod2" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -308,8 +309,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="0h"
-        android:id="@+id/textView21"
+        android:text="pcas1"
+        android:id="@+id/pcas1"
         android:layout_alignBottom="@+id/sparkview"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="5dp"
@@ -352,8 +353,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="0h"
-        android:id="@+id/textView22"
+        android:text="pcas2"
+        android:id="@+id/pcas2"
         android:layout_marginLeft="5dp"
         android:layout_alignBottom="@+id/sparkview2"
         android:layout_alignParentStart="true"
@@ -363,8 +364,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="0h"
-        android:id="@+id/textView23"
+        android:text="pcas3"
+        android:id="@+id/pcas3"
         android:layout_marginLeft="5dp"
         android:layout_alignBottom="@+id/sparkview3"
         android:layout_alignParentStart="true"

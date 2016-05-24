@@ -74,6 +74,8 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -674,6 +676,9 @@ public class MainActivity extends AppCompatActivity {
         TextView cas1 = (TextView) findViewById(R.id.casView1);
         TextView cas2 = (TextView) findViewById(R.id.casView2);
         TextView cas3 = (TextView) findViewById(R.id.casView3);
+        TextView pcas1 = (TextView) findViewById(R.id.pcas1);
+        TextView pcas2 = (TextView) findViewById(R.id.pcas2);
+        TextView pcas3 = (TextView) findViewById(R.id.pcas3);
         TextView min1 = (TextView) findViewById(R.id.tmin1);
         TextView max1 = (TextView) findViewById(R.id.tmax1);
         TextView min2 = (TextView) findViewById(R.id.tmin2);
@@ -769,9 +774,10 @@ public class MainActivity extends AppCompatActivity {
             prg.setVisibility(View.INVISIBLE);
 
             if (connSucc) {
-                Calendar c = Calendar.getInstance();
-                final String time  = (Integer.toString(c.get(Calendar.HOUR_OF_DAY))+":"+ Integer.toString(c.get(Calendar.MINUTE)));
+                final Calendar c = Calendar.getInstance();
+                DateFormat casFormat = new SimpleDateFormat("HH:mm");
 
+                final String time = casFormat.format(c.getTime());
                 Snackbar.make(findViewById(R.id.clayout), "teploty úspěšně obnoveny", Snackbar.LENGTH_SHORT).show();
                 temp1.setText(response1 + " °C");
                 temp2.setText(response2 + " °C");
@@ -791,12 +797,17 @@ public class MainActivity extends AppCompatActivity {
                     sparkView1.setAdapter(new MyAdapter(t1));
                     sparkView2.setAdapter(new MyAdapter(t2));
 
-                    Integer c1=teploty3.size();
-                    cas1.setText(c1.toString() + "h");
-                    Integer c2=teploty1.size();
-                    cas2.setText(c2.toString() + "h");
-                    Integer c3=teploty2.size();
-                    cas3.setText(c3.toString() + "h");
+                    DateFormat datumFormat = new SimpleDateFormat("dd.MM.yy");
+                    final Integer hodina = (c.get(Calendar.HOUR_OF_DAY));
+                    String hod = hodina.toString()+ "h";
+                    cas1.setText(hod);
+                    cas2.setText(hod);
+                    cas3.setText(hod);
+                    c.add(Calendar.DATE, -1);
+                    String pred = " "+ datumFormat.format(c.getTime());
+                    pcas1.setText(hod + pred);
+                    pcas2.setText(hod + pred);
+                    pcas3.setText(hod + pred);
 
                     min1.setText("Min: " + Collections.min(teploty3).toString() + " °C");
                     max1.setText("Max: " + Collections.max(teploty3).toString() + " °C");
@@ -805,9 +816,9 @@ public class MainActivity extends AppCompatActivity {
                     min3.setText("Min: " + Collections.min(teploty2).toString() + " °C");
                     max3.setText("Max: " + Collections.max(teploty2).toString() + " °C");
 
-                    final float xIndex1= (float)(c1*0.001);
-                    final float xIndex2= (float)(c2*0.001);
-                    final float xIndex3= (float)(c3*0.001);
+
+                    final float xIndex = (float)0.024;
+
 
 
 
@@ -822,9 +833,11 @@ public class MainActivity extends AppCompatActivity {
                                 hod1.setText(time);
 
                             } else {
-                                String X = getString(R.string.scrub_format, Math.round(x*xIndex1));
+                                Integer h = hodina + Math.round((x-(float)0.5)*xIndex);
+                                if (h>=24) h=h-24;
+
                                 temp3.setText(scrub + " °C");
-                                hod1.setText(X+"h");
+                                hod1.setText(h+"h");
                             }
 
                         }
@@ -842,9 +855,10 @@ public class MainActivity extends AppCompatActivity {
 
                             } else {
 
-                                String X = getString(R.string.scrub_format, Math.round(x*xIndex2));
+                                Integer h = hodina + Math.round((x-(float)0.5)*xIndex);
+                                if (h>=24) h=h-24;
                                 temp1.setText(scrub + " °C");
-                                hod2.setText(X+"h");
+                                hod2.setText(h+"h");
                             }
 
                         }
@@ -861,9 +875,10 @@ public class MainActivity extends AppCompatActivity {
                                 hod3.setText(time);
 
                             } else {
-                                String X = getString(R.string.scrub_format, Math.round(x*xIndex3));
+                                Integer h = hodina + Math.round((x-(float)0.5)*xIndex);
+                                if (h>=24) h=h-24;
                                 temp2.setText(scrub + " °C");
-                                hod3.setText(X+"h");
+                                hod3.setText(h+"h");
                             }
 
                         }
