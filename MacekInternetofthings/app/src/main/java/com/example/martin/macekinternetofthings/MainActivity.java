@@ -118,13 +118,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         Switch sw = (Switch) findViewById(R.id.switch1);
-       // Button tp = (Button) findViewById(R.id.button);
+
         Button off = (Button) findViewById(R.id.button2);
 
         Button selectClr = (Button) findViewById(R.id.button7);
 
         Button all = (Button) findViewById(R.id.button6);
-       //final CheckBox chck = (CheckBox) findViewById(R.id.checkBox);
+
         final int delay = 90;
         final SparkView sparkView = (SparkView) findViewById(R.id.sparkview);
         final SparkView sparkView1 = (SparkView) findViewById(R.id.sparkview2);
@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         numb[2]=3;
         sparkView.setAdapter(new MyAdapter(numb));
 
+        Button test = (Button) findViewById(R.id.button);
 
 
 
@@ -386,6 +387,13 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        test.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent i = new Intent(context, detailsactivity.class);
+                startActivity(i);
+            }
+        });
 
 
     }

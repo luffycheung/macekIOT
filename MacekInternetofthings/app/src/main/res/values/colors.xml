@@ -9,5 +9,6 @@
     <color name="spark_line_color">#000000</color>
     <color name="spark_base_line_color">#757577</color>
     <color name="spark_scrub_line_color">#757577</color>
+    <color name="colorBackground">#d1d1d1</color>
 
 </resources>

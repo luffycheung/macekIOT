@@ -341,6 +341,15 @@
         android:layout_alignEnd="@+id/seekBarBlue"
         android:layout_marginBottom="5dp" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="automatizace"
+        android:id="@+id/button"
+        android:layout_alignTop="@+id/ventAlarm"
+        android:layout_toStartOf="@+id/casView2" />
+
 
 </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>
