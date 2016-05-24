@@ -458,6 +458,15 @@
         android:layout_alignEnd="@+id/tvenek"
         android:layout_alignStart="@+id/tvenek" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button"
+        android:layout_alignTop="@+id/switch1"
+        android:layout_toStartOf="@+id/switch1" />
+
 
 </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

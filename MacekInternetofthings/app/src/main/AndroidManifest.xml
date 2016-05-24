@@ -32,6 +32,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".detailsactivity"
+            android:label="Automatizace ventilátoru"
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.martin.macekinternetofthings.MainActivity" />
+
+
+        </activity>
+
+
         <service android:name=".MyService"/>
     </application>
 
