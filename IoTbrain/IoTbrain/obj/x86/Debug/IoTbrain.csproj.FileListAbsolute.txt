@@ -13,23 +13,10 @@ C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\obj\x86\
 C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.pdb
 C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\bin\Debug\IoTbrain.exe
 C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\bin\Debug\IoTbrain.pdb
-C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.csprojResolveAssemblyReference.cache
 C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.Form1.resources
 C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.Properties.Resources.resources
 C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\obj\x86\Debug\tcpServer.TcpServer.resources
 C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.csproj.GenerateResource.Cache
 C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\bin\Debug\Newtonsoft.Json.xml
-E:\macekIOT\IoTbrain\IoTbrain\bin\Debug\IoTbrain.exe.config
-E:\macekIOT\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.Form1.resources
-E:\macekIOT\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.Properties.Resources.resources
-E:\macekIOT\IoTbrain\IoTbrain\obj\x86\Debug\tcpServer.TcpServer.resources
-E:\macekIOT\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.csproj.GenerateResource.Cache
-E:\macekIOT\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.csprojResolveAssemblyReference.cache
-E:\macekIOT\IoTbrain\IoTbrain\bin\Debug\IoTbrain.exe
-E:\macekIOT\IoTbrain\IoTbrain\bin\Debug\IoTbrain.pdb
-E:\macekIOT\IoTbrain\IoTbrain\bin\Debug\Newtonsoft.Json.dll
-E:\macekIOT\IoTbrain\IoTbrain\bin\Debug\Newtonsoft.Json.pdb
-E:\macekIOT\IoTbrain\IoTbrain\bin\Debug\Newtonsoft.Json.xml
-E:\macekIOT\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.exe
-E:\macekIOT\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.pdb
+C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.csprojResolveAssemblyReference.cache

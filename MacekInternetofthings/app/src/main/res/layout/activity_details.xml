@@ -51,35 +51,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Cílová teplota"
-        android:id="@+id/textView23"
-        android:textAlignment="viewEnd"
-        android:layout_below="@+id/aut_perioda"
-        android:layout_toStartOf="@+id/aut_perioda"
-        android:layout_marginTop="20dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/aut_target"
-        android:layout_below="@+id/aut_perioda"
-        android:layout_alignStart="@+id/aut_perioda"
-        android:layout_marginTop="15dp"
-        android:layout_alignEnd="@+id/aut_perioda"
-        android:textAlignment="center" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Odchylka"
         android:id="@+id/textView25"
         android:textAlignment="viewEnd"
-        android:layout_below="@+id/aut_target"
-        android:layout_alignEnd="@+id/textView23"
-        android:layout_marginTop="20dp" />
+        android:layout_alignTop="@+id/aut_hys"
+        android:layout_toStartOf="@+id/aut_perioda" />
 
     <Switch
         android:layout_width="wrap_content"
@@ -109,12 +85,12 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/aut_hys"
-        android:layout_below="@+id/aut_target"
-        android:layout_alignEnd="@+id/aut_target"
         android:layout_toEndOf="@+id/textView25"
         android:layout_marginTop="15dp"
-        android:layout_alignStart="@+id/aut_target"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:layout_below="@+id/aut_perioda"
+        android:layout_alignEnd="@+id/aut_perioda"
+        android:layout_alignStart="@+id/aut_perioda" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -122,7 +98,6 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="minut"
         android:id="@+id/textView27"
-        android:layout_above="@+id/aut_target"
         android:layout_toEndOf="@+id/aut_perioda"
         android:layout_marginBottom="15dp" />
 
@@ -131,20 +106,9 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="°C"
-        android:id="@+id/textView28"
-        android:layout_alignBottom="@+id/aut_target"
-        android:layout_toEndOf="@+id/aut_target"
-        android:layout_marginBottom="15dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="°C"
         android:id="@+id/textView29"
-        android:layout_alignBottom="@+id/aut_hys"
-        android:layout_alignStart="@+id/textView28"
-        android:layout_marginBottom="15dp" />
+        android:layout_alignTop="@+id/aut_hys"
+        android:layout_toEndOf="@+id/aut_hys" />
 
     <Button
         android:layout_width="wrap_content"
@@ -169,5 +133,24 @@
         android:id="@+id/textView30"
         android:layout_below="@+id/aut_button1"
         android:layout_alignStart="@+id/aut_button1" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/aut_kldS"
+        android:layout_below="@+id/textView30"
+        android:layout_toStartOf="@+id/aut_sw2"
+        android:layout_marginTop="43dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/aut_kldK"
+        android:layout_below="@+id/aut_kldS"
+        android:layout_alignStart="@+id/textView22" />
 
 </RelativeLayout>

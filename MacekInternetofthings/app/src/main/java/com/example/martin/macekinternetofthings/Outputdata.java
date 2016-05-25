@@ -1,41 +1,57 @@
 package com.example.martin.macekinternetofthings;
 
-import java.util.List;
+
+
+
 
 /**
  * Created by mk on 25.5.16.
  */
+
+
+
 public class Outputdata {
 
-    public static boolean master = false;
-    public static boolean obdobi = false;
-    public static int period;
-    public static int targ;
-    public static float hys;
 
-    //private String davkovac = "null";
-    //private List<Automat> automat;
+    private boolean master = false;
+    private boolean obdobi = false;
+    private int period = 1;
+    //private int targ = 1;
+    private int klid1 = 1;
+    private int klid2 = 1;
+    private float hys = 1;
 
-/*
-    public class Automat
+
+    public void setMaster(boolean cis)
     {
-        int id;
-        String teplota;
-        List<Float> teploty;
-
-
-    } */
-
-    public boolean getChanged()
+        this.master=cis;
+    }
+    public void setObdobi(boolean cis)
     {
-        return master;
+        this.obdobi=cis;
+    }
+    public void setPeriod(int cis)
+    {
+        this.period=cis;
+    }
+  /*  public void setTarg(int cis)
+    {
+        this.targ=cis;
+    }*/
+    public void setKlid1(int cis)
+    {
+        this.klid1=cis;
+    }
+    public void setKlid2(int cis)
+    {
+        this.klid2=cis;
+    }
+
+    public void setHys(float cis)
+    {
+        this.hys=cis;
     }
 
 
 
-   /* public List<Automat> getData()
-    {
-        return automat;
-    }
-    */
 }

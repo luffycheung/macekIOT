@@ -105,6 +105,7 @@
             this.timer3 = new System.Windows.Forms.Timer(this.components);
             this.tcpServer2 = new tcpServer.TcpServer(this.components);
             this.timer4 = new System.Windows.Forms.Timer(this.components);
+            this.aut_Timer = new System.Windows.Forms.Timer(this.components);
             this.devices.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -860,6 +861,10 @@
             // 
             this.timer4.Tick += new System.EventHandler(this.timer4_Tick);
             // 
+            // aut_Timer
+            // 
+            this.aut_Timer.Tick += new System.EventHandler(this.aut_Timer_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -974,6 +979,7 @@
         private System.Windows.Forms.TextBox portbox3;
         private System.Windows.Forms.TextBox ipbox3;
         private System.Windows.Forms.Timer timer4;
+        private System.Windows.Forms.Timer aut_Timer;
     }
 }
 

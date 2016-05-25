@@ -481,7 +481,7 @@ public class MainActivity extends AppCompatActivity {
         SERVER_IP1 = load.getString("IP1","192.168.10.120");
         SERVER_IP2 = load.getString("IP2","192.168.10.65");
         SERVERPORT1 = load.getInt("port1",90);
-        SERVERPORT1 = load.getInt("port2",43333);
+        SERVERPORT2 = load.getInt("port2",43333);
         sec = load.getInt("notif",20);
         lastcolor = load.getInt("rgb",Color.rgb(0,100,255)); //TODO: nefunguji seekbary
         Data.nasobic = load.getFloat("meritko",1);
@@ -499,6 +499,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         catch (NullPointerException e){}
+        new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
 
 
 
@@ -723,9 +724,10 @@ public class MainActivity extends AppCompatActivity {
 
 
                     String text=IP.getText().toString();
-
+                    Integer po = Integer.parseInt(port.getText().toString());
                     dialog.dismiss();
                     SERVER_IP1=text;
+                    SERVERPORT1 = po;
 
                 }
             });
@@ -751,9 +753,53 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.PWMsettings) {
-           // IP.setText(SERVER_IP2);
-           // port.setText(((Integer) SERVERPORT2).toString());
-            dialogLED.show();
+            final Dialog dialog = new Dialog(context);
+            dialog.setContentView(R.layout.addressdialog);
+            dialog.setTitle("Title");
+
+            Button ano = (Button) dialog.findViewById(R.id.button4);
+            Button ne = (Button) dialog.findViewById(R.id.button5);
+            TextView titulek = (TextView) dialog.findViewById(R.id.textView16);
+            titulek.setText("Adresa PWM ovladače");
+            final EditText IP=(EditText)dialog.findViewById(R.id.editText);
+            final EditText port=(EditText)dialog.findViewById(R.id.editText2);
+
+            IP.setText(SERVER_IP2);
+            String p = ((Integer)SERVERPORT2).toString();
+            port.setText(p);
+
+            ano.setOnClickListener(new View.OnClickListener() {
+                //EditText edit=(EditText)dialog.findViewById(R.id.editText);
+
+
+                public void onClick(View v) {
+
+
+                    String text=IP.getText().toString();
+                    Integer po = Integer.parseInt(port.getText().toString());
+                    dialog.dismiss();
+                    SERVER_IP2=text;
+                    SERVERPORT2 = po;
+
+                }
+            });
+            ne.setOnClickListener(new View.OnClickListener() {
+
+
+
+                public void onClick(View v) {
+
+
+
+
+                    dialog.dismiss();
+
+
+                }
+            });
+
+
+            dialog.show();
 
             return true;
         }
@@ -847,6 +893,15 @@ public class MainActivity extends AppCompatActivity {
                     }.getType();
                     JsonParser parser = new JsonParser();
                     JsonObject o = parser.parse(response).getAsJsonObject();
+
+                    Data.master = gson.fromJson(response, Inputdata.class).getMaster();
+                    Data.obdobi = gson.fromJson(response, Inputdata.class).getObdobi();
+                    Data.hys = gson.fromJson(response, Inputdata.class).getHys();
+                    Data.klid1 = gson.fromJson(response, Inputdata.class).getKlid1();
+                    Data.klid2 = gson.fromJson(response, Inputdata.class).getKlid2();
+                    Data.period = gson.fromJson(response, Inputdata.class).getPeriod();
+
+
 
                     List<Inputdata.Davkovac> inty = new Gson().fromJson(o.get("teplomery"), listType);
                     response1 = inty.get(0).teplota;
@@ -985,33 +1040,11 @@ public class MainActivity extends AppCompatActivity {
                             }
 
 
-                            int randColor1 = RandomUtils.nextInt(0,255);
-                            int randColor2 = RandomUtils.nextInt(0,255);
-                            int randColor3 = RandomUtils.nextInt(0,255);
-                            sparkView.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
-                            randColor1 = RandomUtils.nextInt(0,255);
-                            randColor2 = RandomUtils.nextInt(0,255);
-                            randColor3 = RandomUtils.nextInt(0,255);
-                            sparkView1.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
-                            randColor1 = RandomUtils.nextInt(0,255);
-                            randColor2 = RandomUtils.nextInt(0,255);
-                            randColor3 = RandomUtils.nextInt(0,255);
-                            sparkView2.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
-
-
-
-
-
 
                         }
 
+
                     });
-
-
-
-
-
-
 
                 } catch (NullPointerException e1) {
                 }
@@ -1019,7 +1052,18 @@ public class MainActivity extends AppCompatActivity {
 
                 //  sparkView.setScrubEnabled(true);
                 // sparkView.setAnimateChanges(true);
-
+                int randColor1 = RandomUtils.nextInt(0,220);
+                int randColor2 = RandomUtils.nextInt(0,220);
+                int randColor3 = RandomUtils.nextInt(0,220);
+                sparkView.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
+                randColor1 = RandomUtils.nextInt(0,220);
+                randColor2 = RandomUtils.nextInt(0,220);
+                randColor3 = RandomUtils.nextInt(0,220);
+                sparkView1.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
+                randColor1 = RandomUtils.nextInt(0,220);
+                randColor2 = RandomUtils.nextInt(0,220);
+                randColor3 = RandomUtils.nextInt(0,220);
+                sparkView2.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
 
                 sw.setChecked(sta);
             }else

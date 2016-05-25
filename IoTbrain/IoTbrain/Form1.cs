@@ -36,6 +36,16 @@ namespace IoTbrain
         
         private SqlConnection sql;
 
+
+
+        bool enabled;
+        bool obdobi;
+        int period;
+        int target;
+        int kld1;
+        int kld2;
+        float hyster;
+
         //TcpServer tcpServer2 = new TcpServer();
 
         public Form1()
@@ -700,6 +710,14 @@ namespace IoTbrain
                 log.AppendText("Sending back " + response + "\r\n" + "sent " + response.Length.ToString() + "bytes" + "\r\n");
             }
 
+            if (rcvd.Contains("JSONcommand"))
+            {
+                string cmd = rcvd.Substring(11);
+                JSONcommand(cmd);
+               // log.AppendText("Sending back " + response + "\r\n" + "sent " + response.Length.ToString() + "bytes" + "\r\n");
+            }
+
+
 
             if (rcvd.Contains("MTP"))
             {
@@ -977,11 +995,20 @@ namespace IoTbrain
                 if (sw.Contains("1")) product.check = true;
                 else product.check = false;
 
+                product.master = enabled;
+                product.hys = hyster;
+                product.obdobi = obdobi;
+                product.period = period;
+                product.klid1 = kld1;
+                product.klid2 = kld2;
+
                 product.teplomery.Add(new  Teplomer{ id = "1", teplota = SQL_last_temp("temp1_1"), teploty = SQL_whole_day("temp1_1") });
-                product.teplomery.Add(new Teplomer { id = "2", teplota = SQL_last_temp("temp2_1"), teploty = SQL_whole_day("temp2_1") });
-                product.teplomery.Add(new Teplomer { id = "3", teplota = SQL_last_temp("temp3_1"), teploty = SQL_whole_day("temp3_1") });
+                product.teplomery.Add(new Teplomer { id = "2", teplota = SQL_last_temp("temp3_1"), teploty = SQL_whole_day("temp3_1") });
+                product.teplomery.Add(new Teplomer { id = "3", teplota = SQL_last_temp("temp2_1"), teploty = SQL_whole_day("temp2_1") });
+                
                 //product.teplomery.Add(new Teplomer { id = "4", teploty = SQL_whole_day("temp2_1") });
                 json = JsonConvert.SerializeObject(product);
+                
                 return json;
             }
             catch
@@ -989,6 +1016,27 @@ namespace IoTbrain
                 
             }
             return "nada";
+        }
+        public void JSONcommand(string recieved)
+        {
+
+
+            objAut obj = new objAut();
+            obj = JsonConvert.DeserializeObject<objAut>(recieved);
+            enabled = obj.master;
+            obdobi = obj.obdobi;
+            period = obj.period;
+           // target = obj.targ;
+            kld1 = obj.klid1;
+            kld2 = obj.klid2;
+            hyster = obj.hys;
+
+            aut_Timer.Interval = period * 60000;
+            aut_Timer.Enabled = enabled;
+
+            log.AppendText("Setting automatization - " +enabled+"; period: "+ period +"min; target: "+hyster+"°C"+"\r\n");
+
+
         }
 
 
@@ -1040,14 +1088,106 @@ namespace IoTbrain
             timer4.Stop();
             
         }
+
+        private void aut_Timer_Tick(object sender, EventArgs e)
+        {
+
+            bool sw;
+            if (Send_switch("SWITCH1", "SWITCH1").Contains("1")) sw = true;
+            else sw = false;
+
+
+
+            if (enabled && (TimeBetween(kld1, kld2) == false))
+             {
+               float tPokoj = float.Parse(SQL_last_temp("temp3_1"));
+               float tObyvak = float.Parse(SQL_last_temp("temp1_1"));
+
+                
+                
+
+
+                
+
+                if (obdobi)
+                {
+                    if ((tPokoj - tObyvak > hyster))
+                    {
+                        if (sw == false) Send_switch("SWITCH1", "SWITCH1=1");
+
+                    }
+                    else
+                    {
+                        if (sw == true) Send_switch("SWITCH1", "SWITCH1=0");
+                    }
+
+                }
+                else
+                {
+                    if ((tObyvak - tPokoj > hyster))
+                    {
+                        if (sw == false) Send_switch("SWITCH1", "SWITCH1=1");
+
+                    }
+                    else
+                    {
+                        if (sw == true) Send_switch("SWITCH1", "SWITCH1=0");
+                    }
+
+                }
+
+
+
+            }
+            else
+            {
+                if (sw == true) Send_switch("SWITCH1", "SWITCH1=0");
+            }
+
+
+
+
+        }
+
+        private bool TimeBetween(int kld1, int kld2)
+        {
+            // convert datetime to a TimeSpan
+            TimeSpan start = new TimeSpan(kld1, 0, 0);
+            TimeSpan end = new TimeSpan(kld2, 0, 0);
+            TimeSpan now = DateTime.Now.TimeOfDay;
+            // see if start comes before end
+            if (start < end)
+                return start <= now && now <= end;
+            // start is after end, so do the inverse comparison
+            return !(end < now && now < start);
+        }
+
     }
 
 
     public class Product
     {
         public Boolean check;
-
+        public Boolean master;
+        public Boolean obdobi;
+        public int period;
+        public int klid1;
+        public int klid2;
+        public float hys;
         public List<Teplomer> teplomery { get; set; }
+        
+
+    }
+
+    public class objAut
+    {
+        public Boolean master;
+        public Boolean obdobi;
+        public int period;
+       // public int targ;
+        public int klid1;
+        public int klid2;
+        public float hys;
 
     }
 

@@ -34,10 +34,28 @@ public class detailsactivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_details);
-        final EditText test = (EditText) findViewById(R.id.aut_perioda);
+
         Button poslat = (Button) findViewById(R.id.aut_button1);
 
+
+
+        EditText perioda = (EditText) findViewById(R.id.aut_perioda);
+
+        EditText hyster = (EditText) findViewById(R.id.aut_hys);
+        EditText kld1 = (EditText) findViewById(R.id.aut_kldS);
+        EditText kld2 = (EditText) findViewById(R.id.aut_kldK);
+
+        Switch sw1 = (Switch) findViewById(R.id.aut_sw1);
         final Switch sw2 = (Switch) findViewById(R.id.aut_sw2);
+
+        perioda.setText(Integer.toString(Data.period));
+        hyster.setText(Float.toString(Data.hys));
+        kld1.setText(Integer.toString(Data.klid1));
+        kld2.setText(Integer.toString(Data.klid2));
+        sw1.setChecked(Data.master);
+        sw2.setChecked(Data.obdobi);
+
+
 
         sw2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -64,20 +82,30 @@ public class detailsactivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 EditText perioda = (EditText) findViewById(R.id.aut_perioda);
-                EditText target = (EditText) findViewById(R.id.aut_target);
+
                 EditText hyster = (EditText) findViewById(R.id.aut_hys);
+                EditText kld1 = (EditText) findViewById(R.id.aut_kldS);
+                EditText kld2 = (EditText) findViewById(R.id.aut_kldK);
 
                 Switch sw1 = (Switch) findViewById(R.id.aut_sw1);
                 Switch sw2 = (Switch) findViewById(R.id.aut_sw2);
 
 
-                Outputdata.period = Integer.parseInt(perioda.getText().toString());
-                Outputdata.targ = Integer.parseInt(target.getText().toString());
-                Outputdata.hys = Float.parseFloat(hyster.getText().toString());
-                Outputdata.master = sw1.isChecked();
-                Outputdata.obdobi = sw2.isChecked();
 
-                new Poslatprikazy().execute(MainActivity.SERVER_IP1,MainActivity.SERVERPORT1);
+                    Outputdata obj = new Outputdata();
+                    obj.setMaster(sw1.isChecked());
+                    obj.setObdobi(sw2.isChecked());
+                    obj.setPeriod(Integer.parseInt(perioda.getText().toString()));
+                   // obj.setTarg(Integer.parseInt(target.getText().toString()));
+                    obj.setKlid1(Integer.parseInt(kld1.getText().toString()));
+                    obj.setKlid2(Integer.parseInt(kld2.getText().toString()));
+                    obj.setHys(Float.parseFloat(hyster.getText().toString()));
+
+
+                    Gson gson = new GsonBuilder().serializeNulls().create();
+                    String command = gson.toJson(obj);
+                    new Poslatprikazy().execute(MainActivity.SERVER_IP1, MainActivity.SERVERPORT1, command);
+
 
             }
         });
@@ -116,12 +144,10 @@ public class detailsactivity extends AppCompatActivity {
 
                 IP = (String)args[0];
                 port = (int)args[1];
+                command = (String)args[2];
 
 
-                Gson gson = new GsonBuilder().create();
-                JsonParser parser = new JsonParser();
-                //JsonObject obj;
-                //gson.toJson(Outputdata.class, new obj);
+
 
                 tst = command;
                 Socket sockettp = new Socket();
@@ -133,6 +159,8 @@ public class detailsactivity extends AppCompatActivity {
                             new OutputStreamWriter(sockettp.getOutputStream())),
                             true);
                     out.println("JSONcommand " + command);
+
+                    out.close();
 
                     sockettp.close();
 

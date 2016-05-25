@@ -8,7 +8,13 @@ import java.util.List;
 public class Inputdata
 {
     private boolean check = false;
-    //private String davkovac = "null";
+    private boolean master = false;
+    private boolean obdobi = false;
+    private int period;
+    private int klid1;
+    private int klid2;
+    private float hys;
+
     private List<Davkovac> davkovace;
 
 
@@ -24,6 +30,30 @@ public class Inputdata
     public boolean getChanged()
     {
         return check;
+    }
+    public boolean getMaster()
+    {
+        return master;
+    }
+    public boolean getObdobi()
+    {
+        return obdobi;
+    }
+    public int getPeriod()
+    {
+        return period;
+    }
+    public int getKlid1()
+    {
+        return klid1;
+    }
+    public int getKlid2()
+    {
+        return klid2;
+    }
+    public float getHys()
+    {
+        return hys;
     }
 
 
