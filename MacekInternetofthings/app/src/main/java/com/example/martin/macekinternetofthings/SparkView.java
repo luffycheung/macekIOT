@@ -152,7 +152,7 @@ public class SparkView extends View implements ScrubGestureDetector.ScrubListene
     /**
      * Populates the {@linkplain #sparkPath} with points
      */
-    private void populatePath() {
+    public void populatePath() {
         if (adapter == null) return;
         if (getWidth() == 0 || getHeight() == 0) return;
 
@@ -182,9 +182,9 @@ public class SparkView extends View implements ScrubGestureDetector.ScrubListene
             final float y = scaleHelper.getY(adapter.getY(i));
 
             if (i == 0) {
-                sparkPath.moveTo(x, y*(float)1.8);
+                sparkPath.moveTo(x, y*(float)Data.nasobic);
             } else {
-                sparkPath.lineTo(x, y*(float)1.8);
+                sparkPath.lineTo(x, y*(float)Data.nasobic);
             }
 
             if (scrubEnabled) {

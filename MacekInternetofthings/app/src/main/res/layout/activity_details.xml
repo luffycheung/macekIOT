@@ -12,14 +12,138 @@
     android:background="@color/colorBackground"
     app:contentScrim="?attr/colorPrimary">
 
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Master switch"
+        android:id="@+id/aut_sw1"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textOff="off"
+        android:textOn="on" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/aut_perioda"
+        android:layout_below="@+id/aut_sw1"
+        android:layout_alignEnd="@+id/aut_sw1"
+        android:layout_toEndOf="@+id/textView22"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:textAlignment="center" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Perioda obnovy"
         android:id="@+id/textView22"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="136dp" />
+        android:layout_below="@+id/aut_sw1"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:textAlignment="viewEnd"
+        android:layout_marginLeft="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Cílová teplota"
+        android:id="@+id/textView23"
+        android:textAlignment="viewEnd"
+        android:layout_below="@+id/aut_perioda"
+        android:layout_toStartOf="@+id/aut_perioda"
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/aut_target"
+        android:layout_below="@+id/aut_perioda"
+        android:layout_alignStart="@+id/aut_perioda"
+        android:layout_marginTop="15dp"
+        android:layout_alignEnd="@+id/aut_perioda"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Odchylka"
+        android:id="@+id/textView25"
+        android:textAlignment="viewEnd"
+        android:layout_below="@+id/aut_target"
+        android:layout_alignEnd="@+id/textView23"
+        android:layout_marginTop="20dp" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/aut_sw2"
+        android:layout_below="@+id/aut_hys"
+        android:layout_alignEnd="@+id/aut_sw1"
+        android:text="zima"
+        android:textAlignment="center"
+        android:layout_marginTop="15dp"
+        android:layout_alignStart="@+id/aut_hys" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Roční období"
+        android:id="@+id/textView26"
+        android:layout_alignBottom="@+id/aut_sw2"
+        android:layout_alignParentStart="true"
+        android:textAlignment="viewEnd"
+        android:layout_toStartOf="@+id/aut_perioda" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/aut_hys"
+        android:layout_below="@+id/aut_target"
+        android:layout_alignEnd="@+id/aut_target"
+        android:layout_toEndOf="@+id/textView25"
+        android:layout_marginTop="15dp"
+        android:layout_alignStart="@+id/aut_target"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="minut"
+        android:id="@+id/textView27"
+        android:layout_above="@+id/aut_target"
+        android:layout_toEndOf="@+id/aut_perioda"
+        android:layout_marginBottom="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="°C"
+        android:id="@+id/textView28"
+        android:layout_alignBottom="@+id/aut_target"
+        android:layout_toEndOf="@+id/aut_target"
+        android:layout_marginBottom="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="°C"
+        android:id="@+id/textView29"
+        android:layout_alignBottom="@+id/aut_hys"
+        android:layout_alignStart="@+id/textView28"
+        android:layout_marginBottom="15dp" />
 
 </RelativeLayout>

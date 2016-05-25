@@ -11,14 +11,7 @@ public class Inputdata
     //private String davkovac = "null";
     private List<Davkovac> davkovace;
 
-    public Inputdata(){
-    }
 
-    public Inputdata(boolean change, List<Davkovac> davkovace){
-        //this.check = check;
-        //this.davkovac = davkovac;
-
-    }
     public class Davkovac
     {
         int id;
@@ -33,10 +26,6 @@ public class Inputdata
         return check;
     }
 
-        /*public String getDevice()
-        {
-            return davkovac;
-        }*/
 
 
     public List<Davkovac> getData()
@@ -45,10 +34,5 @@ public class Inputdata
     }
 
 
-       /* @Override
-        public String toString()
-        {
-            return "Employee [id=" + id + ", firstName=" + firstName + ", " +
-                    "lastName=" + lastName + ", roles=" + roles + "]";
-        }*/
+
 }

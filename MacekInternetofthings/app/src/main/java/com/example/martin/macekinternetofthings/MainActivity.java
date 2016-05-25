@@ -14,6 +14,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Region;
 import android.os.AsyncTask;
@@ -62,6 +63,7 @@ import com.google.gson.reflect.TypeToken;
 //import com.robinhood.spark.SparkView;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.RandomUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -79,19 +81,21 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.ServiceConfigurationError;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.random;
 
 public class MainActivity extends AppCompatActivity {
 
     private Socket socket;
 
-    public static int SERVERPORT1 = 90;
-    public static String SERVER_IP1 = "192.168.10.120";
+    public static int SERVERPORT1;
+    public static String SERVER_IP1;
     public static int sec = 20;
-    private int SERVERPORT2 = 43333;
-    private String SERVER_IP2 = "192.168.10.65";
+    private int SERVERPORT2;
+    private String SERVER_IP2;
     private String command = "";
     private String command_sw = "";
     private String PWMcommand = "";
@@ -100,8 +104,9 @@ public class MainActivity extends AppCompatActivity {
     //StringBuffer response = new StringBuffer();
     private String response_sw = "aa";
     private String response_tp;
-    private Integer lastcolor = Color.rgb(0,30,255);
+    private Integer lastcolor;
     public static float[]numb=new float[3];
+
     Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         final SeekBar seekBarG = (SeekBar) findViewById(R.id.seekBar);
         final SeekBar seekBarB = (SeekBar) findViewById(R.id.seekBarBlue);
         final SeekBar seekBarR = (SeekBar) findViewById(R.id.seekBarRed);
+        final SeekBar seekBarMeritko = (SeekBar) findViewById(R.id.meritkoSB);
         final TextView testtxt = (TextView) findViewById(R.id.textView12);
         final EditText ventalarm = (EditText) findViewById(R.id.ventAlarm);
         final SparkView sparkView = (SparkView) findViewById(R.id.sparkview);
@@ -133,13 +139,17 @@ public class MainActivity extends AppCompatActivity {
         //endregion
 
 
-        sparkView1.setLineColor(getResources().getColor(R.color.colorGraph2));
-        sparkView2.setLineColor(getResources().getColor(R.color.colorGraph3));
 
-        numb[0]=2;
-        numb[1]=1;
-        numb[2]=3;
+
+        numb[0]=10;
+        numb[1]=8;
+        numb[2]=20;
         sparkView.setAdapter(new MyAdapter(numb));
+        sparkView1.setAdapter(new MyAdapter(numb));
+        sparkView2.setAdapter(new MyAdapter(numb));
+        sparkView.setAnimateChanges(true);
+        sparkView1.setAnimateChanges(true);
+        sparkView2.setAnimateChanges(true);
 
 
         //region SEEKBARY
@@ -172,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
 
                     //testtxt.setText(progress);
                 }
@@ -207,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     prevVal = progress;
+
 
                 }
 
@@ -249,10 +261,41 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     prevVal = progress;
+
                 }
 
             }
         });
+
+
+        seekBarMeritko.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int prevVal;
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                prevVal = seekBarR.getProgress();
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // TODO Auto-generated method stub
+                Data.nasobic = (float)(progress+100)/100;
+                sparkView.populatePath();
+                sparkView1.populatePath();
+                sparkView2.populatePath();
+
+
+
+            }
+        });
+
         //endregion
 
         //region BUTTONY
@@ -394,14 +437,74 @@ public class MainActivity extends AppCompatActivity {
         new Thread(new ServiceStartThread()).start();
     }
 
-
+    //region ACTIVITY EVENTS
     @Override
     public void onRestart(){
         super.onRestart();
 
+
+
         new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
 
+
     }
+    @Override
+    public void onPause(){
+        super.onPause();
+
+
+        SharedPreferences save = getSharedPreferences("app_data", MODE_PRIVATE);
+        SharedPreferences.Editor ed = save.edit();
+        ed.putString("IP1", SERVER_IP1);
+        ed.putString("IP2", SERVER_IP2);
+        ed.putInt("port1",SERVERPORT1);
+        ed.putInt("port2",SERVERPORT2);
+        ed.putInt("notif",sec);
+        ed.putInt("rgb",lastcolor);
+        ed.putFloat("meritko",(float)Data.nasobic);
+        ed.commit();
+
+
+
+    }
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        SeekBar seekBarG = (SeekBar) findViewById(R.id.seekBar);
+        SeekBar seekBarB = (SeekBar) findViewById(R.id.seekBarBlue);
+        SeekBar seekBarR = (SeekBar) findViewById(R.id.seekBarRed);
+        SeekBar seekBarMeritko = (SeekBar) findViewById(R.id.meritkoSB);
+
+        SharedPreferences load = getSharedPreferences("app_data", MODE_PRIVATE);
+
+        SERVER_IP1 = load.getString("IP1","192.168.10.120");
+        SERVER_IP2 = load.getString("IP2","192.168.10.65");
+        SERVERPORT1 = load.getInt("port1",90);
+        SERVERPORT1 = load.getInt("port2",43333);
+        sec = load.getInt("notif",20);
+        lastcolor = load.getInt("rgb",Color.rgb(0,100,255)); //TODO: nefunguji seekbary
+        Data.nasobic = load.getFloat("meritko",1);
+
+        try {
+            seekBarR.setProgress(Color.red(lastcolor)*3);
+            Thread.sleep(90);
+            seekBarG.setProgress(Color.green(lastcolor)*3);
+            Thread.sleep(90);
+            seekBarB.setProgress(Color.blue(lastcolor)*4);
+            seekBarMeritko.setProgress((int)Data.nasobic*100);
+
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        catch (NullPointerException e){}
+
+
+
+    }
+
+    //endregion
 
     //region THREADY
 
@@ -881,6 +984,25 @@ public class MainActivity extends AppCompatActivity {
                                 hod3.setText(h+"h");
                             }
 
+
+                            int randColor1 = RandomUtils.nextInt(0,255);
+                            int randColor2 = RandomUtils.nextInt(0,255);
+                            int randColor3 = RandomUtils.nextInt(0,255);
+                            sparkView.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
+                            randColor1 = RandomUtils.nextInt(0,255);
+                            randColor2 = RandomUtils.nextInt(0,255);
+                            randColor3 = RandomUtils.nextInt(0,255);
+                            sparkView1.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
+                            randColor1 = RandomUtils.nextInt(0,255);
+                            randColor2 = RandomUtils.nextInt(0,255);
+                            randColor3 = RandomUtils.nextInt(0,255);
+                            sparkView2.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
+
+
+
+
+
+
                         }
 
                     });
@@ -914,6 +1036,10 @@ public class MainActivity extends AppCompatActivity {
                         });
                 snackbar.show();
             }
+
+
+
+
             super.onPostExecute(result);
         }
 
