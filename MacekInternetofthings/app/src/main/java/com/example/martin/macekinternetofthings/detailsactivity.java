@@ -267,7 +267,7 @@ public class detailsactivity extends AppCompatActivity {
 
                 }
                 else {
-                    connSucc = true;
+                    connSucc = false;
                     sockettp.close();
                 }
 

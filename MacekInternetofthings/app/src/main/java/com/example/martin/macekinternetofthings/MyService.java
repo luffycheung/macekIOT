@@ -1,6 +1,7 @@
 package com.example.martin.macekinternetofthings;
 
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -14,6 +15,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.renderscript.RenderScript;
 import android.support.v7.app.NotificationCompat;
 
 import com.google.gson.Gson;
@@ -33,11 +35,12 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MyService extends Service {
-    public static String response;
+    public String response;
 
     private String ConnectedWIFI() {
         WifiManager wifiMgr = (WifiManager) super.getSystemService(Context.WIFI_SERVICE);
@@ -57,7 +60,7 @@ public class MyService extends Service {
 
             if (ConnectedWIFI().contains("MANGO666"))
         {
-            String response = "null";
+
 
             try {
                 response = new getTemp().execute("192.168.10.120",90,"JSONteploty").get();
@@ -68,12 +71,20 @@ public class MyService extends Service {
             }
 
             if (response != null) {
+
+                StringBuilder re = new StringBuilder();
+
+
+
+
                 NotificationCompat.Builder mBuilder =
                         (NotificationCompat.Builder) new NotificationCompat.Builder(this)
                                 .setSmallIcon(R.drawable.ic_stat_file_cloud)
                                 .setColor(getResources().getColor(R.color.colorPrimary))
-                                .setContentTitle("Macek's internet of things")
-                                .setContentText("Teplota venku: " + response + " °C");
+                                .setContentTitle("MacIoT update")
+                                .setPriority(Notification.PRIORITY_MAX)
+                                .setStyle(new NotificationCompat.BigTextStyle().bigText(response));
+
 
                 int mNotificationId = 001;
 
@@ -135,8 +146,8 @@ public class MyService extends Service {
 
 
                 Socket sockettp = new Socket();
-                sockettp.connect(new InetSocketAddress(InetAddress.getByName(IP),port),1000);
-                sockettp.setSoTimeout(1000);
+                sockettp.connect(new InetSocketAddress(InetAddress.getByName(IP),port),3000);
+                sockettp.setSoTimeout(3000);
                 if (sockettp.isBound()){
                     connSucc = true;
                     PrintWriter out = new PrintWriter(new BufferedWriter(
@@ -150,20 +161,6 @@ public class MyService extends Service {
                     sockettp.close();
 
 
-              /*  Gson gson = new GsonBuilder().create();
-                String mag = gson.fromJson(response, data.class).getDevice();
-                boolean sta = gson.fromJson(response, data.class).getChanged();
-
-
-                if (gson.fromJson(response, data.class).getAlarms() != null) {
-                    List<String> alarmy = gson.fromJson(response, data.class).getAlarms();
-
-                    re.setLength(0);
-                    for (int x = 0; x < alarmy.size(); x++) {
-                        re.append(alarmy.get(x) + "\r\n");
-
-                    }
-                }*/
 
 
 
@@ -175,15 +172,30 @@ public class MyService extends Service {
 
                         List<Inputdata.Davkovac> inty = new Gson().fromJson(o.get("teplomery"), listType);
 
+                    Gson gson = new GsonBuilder().create();
+                    boolean sta = gson.fromJson(response, Inputdata.class).getChanged();
+
+                    StringBuilder re = new StringBuilder();
 
 
 
+                    String tPokoj = inty.get(1).teplota;
+                    String tObyvak = inty.get(0).teplota;
+                    tPokoj = tPokoj.replace(',', '.');
+                    tObyvak = tObyvak.replace(',', '.');
 
-                        result = inty.get(1).teplota;
+                    DecimalFormat df = new DecimalFormat("#.##");
+
+                      double rozdil = (Float.parseFloat(tPokoj) - Float.parseFloat(tObyvak));
+
+                       re.append("Teplota venku: " + inty.get(2).teplota + "°C" +"\r\n");
+                       re.append("Rozdíl teplot v pokojích: " + df.format(rozdil) + "°C" +"\r\n");
+                    if (sta) re.append("Ventilátor je zapnutý" +"\r\n");
+                    else re.append("Ventilátor je vypnutý" +"\r\n");
 
 
 
-
+                    result = re.toString();
 
 
 

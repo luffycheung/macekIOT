@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     private String response_tp;
     private Integer lastcolor;
     public static float[]numb=new float[3];
+    private boolean globalConnSucc = false;
 
     Context context = this;
     @Override
@@ -570,33 +571,32 @@ public class MainActivity extends AppCompatActivity {
 
 
         public void run() {
-
-            try {
-
-
-
-                Socket socket = new Socket();
-                socket.connect(new InetSocketAddress(InetAddress.getByName(SERVER_IP2),SERVERPORT2),200);
-                socket.setSoTimeout(200);
-                PrintWriter out = new PrintWriter(new BufferedWriter(
-                        new OutputStreamWriter(socket.getOutputStream())),
-                        true);
-                out.println(PWMcommand);
-                Thread.sleep(100);
-                out.println(PWMcommand1);
-                Thread.sleep(100);
-                out.println(PWMcommand2);
+            if (globalConnSucc) {
+                try {
 
 
+                    Socket socket = new Socket();
+                    socket.connect(new InetSocketAddress(InetAddress.getByName(SERVER_IP2), SERVERPORT2), 200);
+                    socket.setSoTimeout(200);
+                    PrintWriter out = new PrintWriter(new BufferedWriter(
+                            new OutputStreamWriter(socket.getOutputStream())),
+                            true);
+                    out.println(PWMcommand);
+                    Thread.sleep(100);
+                    out.println(PWMcommand1);
+                    Thread.sleep(100);
+                    out.println(PWMcommand2);
 
-                socket.close();
 
-            } catch (UnknownHostException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                    socket.close();
+
+                } catch (UnknownHostException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
         }
@@ -940,7 +940,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             prg.setVisibility(View.INVISIBLE);
-
+            globalConnSucc = connSucc;
             if (connSucc) {
                 final Calendar c = Calendar.getInstance();
                 DateFormat casFormat = new SimpleDateFormat("HH:mm");
