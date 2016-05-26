@@ -35,6 +35,7 @@ import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -114,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
         final SparkView sparkView1 = (SparkView) findViewById(R.id.sparkview2);
         final SparkView sparkView2 = (SparkView) findViewById(R.id.sparkview3);
         final SparkView sparkView3 = (SparkView) findViewById(R.id.sparkview4);
+        final FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.FAB);
+        FloatingActionButton fFab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingToolbar fToolbar = (FloatingToolbar) findViewById(R.id.floatingToolbar);
 
         Switch sw = (Switch) findViewById(R.id.switch1);
         Button off = (Button) findViewById(R.id.button2);
@@ -137,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
         sparkView.setAnimateChanges(true);
         sparkView1.setAnimateChanges(true);
         sparkView2.setAnimateChanges(true);
+
+        fToolbar.attachFab(fFab);
+        myFab.hide();
 
 
         //region SEEKBARY
@@ -375,7 +382,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        final FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.FAB);
+
 
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
