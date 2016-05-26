@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.martin.macekinternetofthings.detailsactivity"
+    android:background="#d1d1d1"
+    android:id="@+id/aut__clayout">
+
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,12 +28,15 @@
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Master switch"
+        android:text="Automatizace   "
         android:id="@+id/aut_sw1"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textOff="off"
-        android:textOn="on" />
+        android:textOff="vyp"
+        android:textOn="zap"
+        android:layout_marginTop="20dp"
+        android:textSize="18dp"
+        android:showText="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -45,7 +61,8 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="20dp"
         android:textAlignment="viewEnd"
-        android:layout_marginLeft="30dp" />
+        android:layout_marginLeft="30dp"
+        android:textColor="#000000" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -55,7 +72,8 @@
         android:id="@+id/textView25"
         android:textAlignment="viewEnd"
         android:layout_alignTop="@+id/aut_hys"
-        android:layout_toStartOf="@+id/aut_perioda" />
+        android:layout_toStartOf="@+id/aut_perioda"
+        android:textColor="#000000" />
 
     <Switch
         android:layout_width="wrap_content"
@@ -66,7 +84,8 @@
         android:text="zima"
         android:textAlignment="center"
         android:layout_marginTop="15dp"
-        android:layout_alignStart="@+id/aut_hys" />
+        android:layout_alignStart="@+id/aut_hys"
+        android:textSize="16dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -77,7 +96,8 @@
         android:layout_alignBottom="@+id/aut_sw2"
         android:layout_alignParentStart="true"
         android:textAlignment="viewEnd"
-        android:layout_toStartOf="@+id/aut_perioda" />
+        android:layout_toStartOf="@+id/aut_perioda"
+        android:textColor="#000000" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -98,8 +118,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="minut"
         android:id="@+id/textView27"
-        android:layout_toEndOf="@+id/aut_perioda"
-        android:layout_marginBottom="15dp" />
+        android:layout_alignTop="@+id/textView22"
+        android:layout_toEndOf="@+id/aut_perioda" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -110,39 +130,17 @@
         android:layout_alignTop="@+id/aut_hys"
         android:layout_toEndOf="@+id/aut_hys" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Poslat příkazy"
-        android:id="@+id/aut_button1"
-        android:layout_marginTop="25dp"
-        android:layout_below="@+id/aut_sw2"
-        android:layout_centerHorizontal="true" />
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/aut_progBar"
-        android:layout_alignBottom="@+id/aut_button1"
-        android:layout_toEndOf="@+id/textView29" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView30"
-        android:layout_below="@+id/aut_button1"
-        android:layout_alignStart="@+id/aut_button1" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
         android:id="@+id/aut_kldS"
-        android:layout_below="@+id/textView30"
-        android:layout_toStartOf="@+id/aut_sw2"
-        android:layout_marginTop="43dp" />
+        android:layout_marginLeft="90dp"
+        android:layout_below="@+id/textView23"
+        android:layout_toStartOf="@+id/textView31"
+        android:layout_marginTop="5dp"
+        android:textAlignment="center" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -150,7 +148,94 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/aut_kldK"
-        android:layout_below="@+id/aut_kldS"
-        android:layout_alignStart="@+id/textView22" />
+        android:layout_marginRight="70dp"
+        android:layout_below="@+id/textView23"
+        android:layout_toEndOf="@+id/textView32"
+        android:layout_marginTop="5dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Období klidu"
+        android:id="@+id/textView23"
+        android:layout_below="@+id/aut_sw2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:textSize="18dp"
+        android:textColor="#000000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Od"
+        android:id="@+id/textView28"
+        android:layout_alignTop="@+id/aut_kldS"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="h"
+        android:id="@+id/textView31"
+        android:layout_alignTop="@+id/textView28"
+        android:layout_alignStart="@+id/textView23" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Do"
+        android:id="@+id/textView32"
+        android:layout_alignTop="@+id/textView28"
+        android:layout_toEndOf="@+id/textView23"
+        android:layout_marginLeft="-10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="h"
+        android:id="@+id/textView33"
+        android:layout_alignTop="@+id/textView32"
+        android:layout_toEndOf="@+id/textView27" />
+
+
+
+    <com.dmitrymalkovich.android.ProgressFloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_gravity="bottom|right"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true">
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_stat_av_loop"
+            android:id="@+id/aut_FAB"
+            android:tint="#00312424"
+            app:backgroundTint="@color/colorPrimary" />
+
+        <ProgressBar
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/aut_FABpb"
+            android:max="2"
+            android:visibility="invisible" />
+
+    </com.dmitrymalkovich.android.ProgressFloatingActionButton>
+
+
+
 
 </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

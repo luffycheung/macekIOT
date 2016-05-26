@@ -137,7 +137,9 @@ public class MainActivity extends AppCompatActivity {
         Button test = (Button) findViewById(R.id.button);
 
         //endregion
-
+        seekBarR.setProgress(11);
+        seekBarG.setProgress(11);
+        seekBarB.setProgress(11);
 
 
 
@@ -321,8 +323,9 @@ public class MainActivity extends AppCompatActivity {
                         .with(context)
                         .setTitle("VYBER BARVU")
                         .initialColor(lastcolor)
-                        .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                        .density(7)
+
+                        .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
+                        .density(5)
                         .setOnColorSelectedListener(new OnColorSelectedListener() {
                             @Override
                             public void onColorSelected(int selectedColor) {
@@ -429,19 +432,23 @@ public class MainActivity extends AppCompatActivity {
         test.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+
                 Intent i = new Intent(context, detailsactivity.class);
                 startActivity(i);
+                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
             }
         });
         //endregion
         new Thread(new ServiceStartThread()).start();
+
+
     }
+
 
     //region ACTIVITY EVENTS
     @Override
     public void onRestart(){
         super.onRestart();
-
 
 
         new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
@@ -451,6 +458,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause(){
         super.onPause();
+
 
 
         SharedPreferences save = getSharedPreferences("app_data", MODE_PRIVATE);
@@ -611,6 +619,8 @@ public class MainActivity extends AppCompatActivity {
             } catch (ServiceConfigurationError e) {
 
             }
+
+
 
 
 

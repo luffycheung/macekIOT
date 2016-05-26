@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0d47a1</color>
-    <color name="colorPrimaryDark">#003fa1</color>
-    <color name="colorAccent">#d50000</color>
+    <color name="colorPrimary">#00acc1</color>
+    <color name="colorPrimaryDark">@color/colorPrimary</color>
+    <color name="colorAccent">#757575</color>
     <color name="colorGraph1">#43a047</color>
     <color name="colorGraph2">#c62828</color>
     <color name="colorGraph3">#1565c0</color>
     <color name="spark_line_color">#000000</color>
     <color name="spark_base_line_color">#757577</color>
     <color name="spark_scrub_line_color">#757577</color>
-    <color name="colorBackground">#d1d1d1</color>
+    <color name="colorBackground">#dadada</color>
 
 </resources>
 
