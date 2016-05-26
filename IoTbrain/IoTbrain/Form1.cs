@@ -1054,10 +1054,37 @@ namespace IoTbrain
                 product.klid1 = kld1;
                 product.klid2 = kld2;
 
-                product.teplomery.Add(new  Teplomer{ id = "1", teplota = SQL_last_temp("temp1_1"), teploty = SQL_whole_day("temp1_1") });
-                product.teplomery.Add(new Teplomer { id = "2", teplota = SQL_last_temp("temp3_1"), teploty = SQL_whole_day("temp3_1") });
+                float rozdil = float.Parse(SQL_last_temp("temp3_1")) - float.Parse(SQL_last_temp("temp1_1"));
+
+                List<float> tPokoj = new List<float>(SQL_whole_day("temp3_1"));
+
+                List<float> tObyvak = new List<float>(SQL_whole_day("temp1_1"));
+
+                List<float> tDelta = new List<float>();
+
+                int count = 24;
+                if (tPokoj.Count > tObyvak.Count) count = tObyvak.Count;
+                else count = tPokoj.Count;
+
+                for (int i = 0; i < count; i++)
+
+                {
+                    double t1;
+                    double t2;
+                   double.TryParse(tObyvak[i].ToString(), out t2);
+                    double.TryParse(tPokoj[i].ToString(),  out t1);
+
+                    tDelta.Add((float) (t1-t2));
+                }
+                    
+
+
+
+                product.teplomery.Add(new  Teplomer{ id = "1", teplota = SQL_last_temp("temp1_1"), teploty = tObyvak });
+                product.teplomery.Add(new Teplomer { id = "2", teplota = SQL_last_temp("temp3_1"), teploty = tPokoj });
                 product.teplomery.Add(new Teplomer { id = "3", teplota = SQL_last_temp("temp2_1"), teploty = SQL_whole_day("temp2_1") });
-                
+                product.teplomery.Add(new Teplomer { id = "4", teplota = rozdil.ToString(), teploty = tDelta });
+
                 //product.teplomery.Add(new Teplomer { id = "4", teploty = SQL_whole_day("temp2_1") });
                 json = JsonConvert.SerializeObject(product);
                 
