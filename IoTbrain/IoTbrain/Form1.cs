@@ -88,6 +88,10 @@ namespace IoTbrain
 
             timerS.Stop();
         }
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            tcpServer2.Close();
+        }
 
         
 
@@ -470,7 +474,7 @@ namespace IoTbrain
         #endregion
 
 
-
+        #region Buttony
 
 
         private void refreshtablebutton_Click(object sender, EventArgs e)
@@ -632,14 +636,13 @@ namespace IoTbrain
             
             log.AppendText("SQL: " + sql.State.ToString() + "\r\n");
         }
+        
+        #endregion
 
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            tcpServer2.Close();
-        }
-
+        
 
 
+       #region tcpservery
 
 
         public delegate void invokeDelegate();
@@ -760,8 +763,10 @@ namespace IoTbrain
             
             
         }
+        
+        #endregion
             
-
+        #region SQLdotazy
         public string SQL_avg_hour(string table)
         {
             try
@@ -906,7 +911,12 @@ namespace IoTbrain
             }
             return null;
         }
-
+        
+        #endregion
+        
+        
+        #region TCPprikazy
+        
         public string Send_switch(string table, string sw)
         {
             try
@@ -981,6 +991,48 @@ namespace IoTbrain
             }
             return "TCP error";
         }
+        
+         public void TCPsend2(string message, string IP, int port)
+        {
+            try
+            {
+                // Int32 port = 43333;
+                // string IP = ipbox1.Text;
+
+
+                System.Net.Sockets.TcpClient client = new System.Net.Sockets.TcpClient(IP, port);
+                Byte[] data = Encoding.ASCII.GetBytes(message);
+                System.Net.Sockets.NetworkStream stream = client.GetStream();
+                stream.Write(data, 0, data.Length);
+
+               /* data = new Byte[256];
+                String responseData = String.Empty;
+                Int32 bytes = stream.Read(data, 0, data.Length);
+                responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);*/
+
+                stream.Close();
+                client.Close();
+                //return responseData;
+            }
+            catch
+            {
+                log.AppendText("TCP failed: " + command1 + "\r\n");
+            }
+            //return "TCP error";
+        }
+        
+        private void bw0_DoWork(object sender, DoWorkEventArgs e)
+        {
+            int port;
+            int.TryParse(portbox1.Text, out port);
+            TCPsend2(sw_command1, ipbox1.Text, port);
+
+        }
+        
+          
+        #endregion
+
+        #region JSONzpracovani
 
         public string JSONteploty()
         {
@@ -1039,47 +1091,12 @@ namespace IoTbrain
 
         }
 
-
-        public void TCPsend2(string message, string IP, int port)
-        {
-            try
-            {
-                // Int32 port = 43333;
-                // string IP = ipbox1.Text;
-
-
-                System.Net.Sockets.TcpClient client = new System.Net.Sockets.TcpClient(IP, port);
-                Byte[] data = Encoding.ASCII.GetBytes(message);
-                System.Net.Sockets.NetworkStream stream = client.GetStream();
-                stream.Write(data, 0, data.Length);
-
-               /* data = new Byte[256];
-                String responseData = String.Empty;
-                Int32 bytes = stream.Read(data, 0, data.Length);
-                responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);*/
-
-                stream.Close();
-                client.Close();
-                //return responseData;
-            }
-            catch
-            {
-                log.AppendText("TCP failed: " + command1 + "\r\n");
-            }
-            //return "TCP error";
-        }
+        #endregion
+       
 
 
 
-        private void bw0_DoWork(object sender, DoWorkEventArgs e)
-        {
-            int port;
-            int.TryParse(portbox1.Text, out port);
-            TCPsend2(sw_command1, ipbox1.Text, port);
-
-
-
-        }
+        #region automatizace
 
         private void timer4_Tick(object sender, EventArgs e)
         {
@@ -1163,8 +1180,11 @@ namespace IoTbrain
         }
 
     }
+    
+    #endregion
 
-
+    #region jsonClassy
+    
     public class Product
     {
         public Boolean check;
@@ -1199,6 +1219,8 @@ namespace IoTbrain
         public List<float> teploty { get; set; }
 
     }
+    
+    #endregion
 
 
 

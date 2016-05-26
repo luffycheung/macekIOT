@@ -16,7 +16,6 @@ public class Outputdata {
     private boolean master = false;
     private boolean obdobi = false;
     private int period = 1;
-    //private int targ = 1;
     private int klid1 = 1;
     private int klid2 = 1;
     private float hys = 1;
@@ -34,10 +33,6 @@ public class Outputdata {
     {
         this.period=cis;
     }
-  /*  public void setTarg(int cis)
-    {
-        this.targ=cis;
-    }*/
     public void setKlid1(int cis)
     {
         this.klid1=cis;

@@ -882,8 +882,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Socket sockettp = new Socket();
-                sockettp.connect(new InetSocketAddress(InetAddress.getByName(IP),port),1000);
-                sockettp.setSoTimeout(1000);
+                sockettp.connect(new InetSocketAddress(InetAddress.getByName(IP),port),2000);
+                sockettp.setSoTimeout(2000);
                 if (sockettp.isBound()) {
                     connSucc = true;
                     PrintWriter out = new PrintWriter(new BufferedWriter(

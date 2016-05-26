@@ -175,7 +175,6 @@ public class detailsactivity extends AppCompatActivity {
                 obj.setMaster(sw1.isChecked());
                 obj.setObdobi(sw2.isChecked());
                 obj.setPeriod(Integer.parseInt(perioda.getText().toString()));
-                // obj.setTarg(Integer.parseInt(target.getText().toString()));
                 obj.setKlid1(Integer.parseInt(kld1.getText().toString()));
                 obj.setKlid2(Integer.parseInt(kld2.getText().toString()));
                 obj.setHys(Float.parseFloat(hyster.getText().toString()));
@@ -226,7 +225,7 @@ public class detailsactivity extends AppCompatActivity {
         String IP;
         int port;
         String command;
-        String tst;
+
 
 
         @Override
@@ -235,7 +234,7 @@ public class detailsactivity extends AppCompatActivity {
 
 
 
-            String result="null";
+
 
             try {
 
@@ -288,7 +287,7 @@ public class detailsactivity extends AppCompatActivity {
 
             if (connSucc) {
 
-                Snackbar.make(findViewById(R.id.aut__clayout), "příkaz byl úspěšně vyslán", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.aut__clayout), "příkaz byl úspěšně vyslán", Snackbar.LENGTH_LONG).show();
 
 
             }else
