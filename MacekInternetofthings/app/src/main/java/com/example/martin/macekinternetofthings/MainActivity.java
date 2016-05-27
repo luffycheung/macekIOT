@@ -151,6 +151,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
         final View iView = fToolbar.getCustomView();
         final SeekBar seekBarMeritko = (SeekBar) iView.findViewById(R.id.meritkoSBfloat);
         Button float_ok = (Button) iView.findViewById(R.id.button3);
@@ -502,7 +504,7 @@ public class MainActivity extends AppCompatActivity {
         SeekBar seekBarG = (SeekBar) findViewById(R.id.seekBar);
         SeekBar seekBarB = (SeekBar) findViewById(R.id.seekBarBlue);
         SeekBar seekBarR = (SeekBar) findViewById(R.id.seekBarRed);
-        SeekBar seekBarMeritko = (SeekBar) findViewById(R.id.meritkoSB);
+        //SeekBar seekBarMeritko = (SeekBar) findViewById(R.id.meritkoSB);
 
         SharedPreferences load = getSharedPreferences("app_data", MODE_PRIVATE);
 
@@ -520,7 +522,7 @@ public class MainActivity extends AppCompatActivity {
             seekBarG.setProgress(Color.green(lastcolor)*3);
             Thread.sleep(90);
             seekBarB.setProgress(Color.blue(lastcolor)*4);
-            seekBarMeritko.setProgress((int)Data.nasobic*100);
+           // seekBarMeritko.setProgress((int)Data.nasobic*100);
 
         }
         catch (InterruptedException e) {
