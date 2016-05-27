@@ -60,7 +60,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_stat_file_cloud" />
+        android:src="@drawable/ic_action_image_tune"
+        app:backgroundTint="@color/colorPrimary" />
 
 
 
@@ -70,7 +71,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
-        android:layout_gravity="bottom|right">
+        android:layout_gravity="bottom|right"
+        android:minHeight="150dp">
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -78,6 +80,7 @@
             android:src="@drawable/ic_stat_av_loop"
             android:id="@+id/FAB"
             android:tint="#00312424"
+
             app:backgroundTint="@color/colorPrimary" />
 
         <ProgressBar
@@ -86,6 +89,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/FABpb"
             android:max="2"
+
             android:visibility="invisible" />
 
     </com.dmitrymalkovich.android.ProgressFloatingActionButton>

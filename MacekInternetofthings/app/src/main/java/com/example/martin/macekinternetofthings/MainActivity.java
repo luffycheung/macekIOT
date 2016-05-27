@@ -17,6 +17,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         final SeekBar seekBarG = (SeekBar) findViewById(R.id.seekBar);
         final SeekBar seekBarB = (SeekBar) findViewById(R.id.seekBarBlue);
         final SeekBar seekBarR = (SeekBar) findViewById(R.id.seekBarRed);
-        final SeekBar seekBarMeritko = (SeekBar) findViewById(R.id.meritkoSB);
+       // final SeekBar seekBarMeritko = (SeekBar) findViewById(R.id.meritkoSB);
         final TextView testtxt = (TextView) findViewById(R.id.textView12);
         final EditText ventalarm = (EditText) findViewById(R.id.ventAlarm);
         final SparkView sparkView = (SparkView) findViewById(R.id.sparkview);
@@ -116,8 +117,9 @@ public class MainActivity extends AppCompatActivity {
         final SparkView sparkView2 = (SparkView) findViewById(R.id.sparkview3);
         final SparkView sparkView3 = (SparkView) findViewById(R.id.sparkview4);
         final FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.FAB);
+        final FloatingActionButton myFab2 = (FloatingActionButton) findViewById(R.id.fab);
         FloatingActionButton fFab = (FloatingActionButton) findViewById(R.id.fab);
-        FloatingToolbar fToolbar = (FloatingToolbar) findViewById(R.id.floatingToolbar);
+        final FloatingToolbar fToolbar = (FloatingToolbar) findViewById(R.id.floatingToolbar);
 
         Switch sw = (Switch) findViewById(R.id.switch1);
         Button off = (Button) findViewById(R.id.button2);
@@ -144,6 +146,15 @@ public class MainActivity extends AppCompatActivity {
 
         fToolbar.attachFab(fFab);
         myFab.hide();
+
+
+
+
+
+        final View iView = fToolbar.getCustomView();
+        final SeekBar seekBarMeritko = (SeekBar) iView.findViewById(R.id.meritkoSBfloat);
+        Button float_ok = (Button) iView.findViewById(R.id.button3);
+
 
 
         //region SEEKBARY
@@ -309,6 +320,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        float_ok.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                fToolbar.hide();
+                myFab.hide();
+            }
+        });
+
+        myFab2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                myFab.show();
+                overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
+                fToolbar.show();
+            }
+        });
+
 
         selectClr.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
