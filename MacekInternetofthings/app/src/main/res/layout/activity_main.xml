@@ -61,7 +61,8 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_action_image_tune"
-        app:backgroundTint="@color/colorPrimary" />
+        app:backgroundTint="@color/colorPrimary"
+        android:adjustViewBounds="false" />
 
 
 
@@ -80,8 +81,9 @@
             android:src="@drawable/ic_stat_av_loop"
             android:id="@+id/FAB"
             android:tint="#00312424"
+            app:fabSize="mini"
 
-            app:backgroundTint="@color/colorPrimary" />
+            app:backgroundTint="@color/colorAccent" />
 
         <ProgressBar
             style="@style/Widget.AppCompat.ProgressBar"

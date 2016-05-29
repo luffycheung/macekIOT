@@ -24,9 +24,9 @@
         android:max="350"
         android:thumbTint="@android:color/black"
         android:layout_marginLeft="0dp"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="5dp" />
+        android:progress="100"
+        android:layout_below="@+id/textView30"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="měřítko grafů"
         android:id="@+id/textView30"
-        android:layout_above="@+id/meritkoSBfloat"
+        android:layout_alignTop="@+id/button3"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="97dp" />
+        android:layout_marginLeft="15dp" />
 </RelativeLayout>

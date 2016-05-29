@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,7 +22,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -157,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         final SeekBar seekBarMeritko = (SeekBar) iView.findViewById(R.id.meritkoSBfloat);
         Button float_ok = (Button) iView.findViewById(R.id.button3);
 
-
+       final Handler handler = new Handler();
 
         //region SEEKBARY
         seekBarG.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -293,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // TODO Auto-generated method stub
-                Data.nasobic = (float)(progress+100)/100;
+                Data.nasobic = (double)(progress)/100;
                 sparkView.populatePath();
                 sparkView1.populatePath();
                 sparkView2.populatePath();
@@ -332,11 +335,16 @@ public class MainActivity extends AppCompatActivity {
 
         myFab2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                myFab.show();
-                overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
+                //myFab.show();
+
+
                 fToolbar.show();
+                handler.postDelayed(FABshow, 500);
             }
         });
+
+
+
 
 
         selectClr.setOnClickListener(new View.OnClickListener() {
@@ -462,9 +470,18 @@ public class MainActivity extends AppCompatActivity {
         });
         //endregion
         new Thread(new ServiceStartThread()).start();
+        seekBarMeritko.setProgress((int)Data.nasobic*100);
 
 
     }
+     public Runnable FABshow = new Runnable() {
+        @Override
+        public void run() {
+            FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.FAB);
+            myFab.show();
+
+        }
+    };
 
 
     //region ACTIVITY EVENTS
@@ -514,7 +531,7 @@ public class MainActivity extends AppCompatActivity {
         SERVERPORT2 = load.getInt("port2",43333);
         sec = load.getInt("notif",20);
         lastcolor = load.getInt("rgb",Color.rgb(0,100,255)); //TODO: nefunguji seekbary
-        Data.nasobic = load.getFloat("meritko",1);
+        Data.nasobic = load.getFloat("meritko", 1);
 
         try {
             seekBarR.setProgress(Color.red(lastcolor)*3);
@@ -651,6 +668,9 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
+
     //endregion
 
     //region MENU
