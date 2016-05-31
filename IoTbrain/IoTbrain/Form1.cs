@@ -1054,7 +1054,7 @@ namespace IoTbrain
                 product.klid1 = kld1;
                 product.klid2 = kld2;
 
-                float rozdil = Math.Round((float.Parse(SQL_last_temp("temp3_1")) - float.Parse(SQL_last_temp("temp1_1"))), 2);
+                float rozdil = (float)Math.Round((float.Parse(SQL_last_temp("temp3_1")) - float.Parse(SQL_last_temp("temp1_1"))), 2);
 
                 List<float> tPokoj = new List<float>(SQL_whole_day("temp3_1"));
 
