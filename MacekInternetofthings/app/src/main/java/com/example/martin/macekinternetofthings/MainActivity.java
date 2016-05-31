@@ -533,20 +533,8 @@ public class MainActivity extends AppCompatActivity {
         lastcolor = load.getInt("rgb",Color.rgb(0,100,255)); //TODO: nefunguji seekbary
         Data.nasobic = load.getFloat("meritko", 1);
 
-        try {
-            seekBarR.setProgress(Color.red(lastcolor)*3);
-            Thread.sleep(90);
-            seekBarG.setProgress(Color.green(lastcolor)*3);
-            Thread.sleep(90);
-            seekBarB.setProgress(Color.blue(lastcolor)*4);
-           // seekBarMeritko.setProgress((int)Data.nasobic*100);
 
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        catch (NullPointerException e){}
-        new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
+        //new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
 
 
 
@@ -1161,17 +1149,8 @@ public class MainActivity extends AppCompatActivity {
                 int randColor2 = RandomUtils.nextInt(0,220);
                 int randColor3 = RandomUtils.nextInt(0,220);
                 sparkView.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
-                randColor1 = RandomUtils.nextInt(0,220);
-                randColor2 = RandomUtils.nextInt(0,220);
-                randColor3 = RandomUtils.nextInt(0,220);
                 sparkView1.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
-                randColor1 = RandomUtils.nextInt(0,220);
-                randColor2 = RandomUtils.nextInt(0,220);
-                randColor3 = RandomUtils.nextInt(0,220);
                 sparkView2.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
-                randColor1 = RandomUtils.nextInt(0,220);
-                randColor2 = RandomUtils.nextInt(0,220);
-                randColor3 = RandomUtils.nextInt(0,220);
                 sparkView3.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
 
                 sw.setChecked(sta);

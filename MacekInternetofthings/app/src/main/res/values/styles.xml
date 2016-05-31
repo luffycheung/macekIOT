@@ -36,7 +36,7 @@
     <style name="MySparkViewStyle" parent="@style/spark_SparkView">
         <item name="spark_lineColor">@color/colorGraph1</item>
         <item name="spark_lineWidth">4dp</item>
-        <item name="spark_cornerRadius">0.5dp</item>
+        <item name="spark_cornerRadius">2dp</item>
         <item name="spark_fill">false</item>
 
         <item name="spark_baseLineColor">@color/spark_base_line_color</item>
