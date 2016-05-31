@@ -3,8 +3,10 @@ package com.example.martin.macekinternetofthings;
 
 
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,6 +28,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -161,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
         Button float_ok = (Button) iView.findViewById(R.id.button3);
 
        final Handler handler = new Handler();
+
 
         //region SEEKBARY
         seekBarG.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -427,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
                 new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
             }
         });
-        myFab.performClick();
+       // myFab.performClick();
 
 
 
@@ -445,11 +449,11 @@ public class MainActivity extends AppCompatActivity {
                 if (isChecked) {
                     command_sw = "SWITCH1=1_" + ventalarm.getText();
 
-                    Snackbar.make(findViewById(android.R.id.content), "zapínám ventilátor", Snackbar.LENGTH_SHORT).show();
+                    //Snackbar.make(findViewById(android.R.id.content), "zapínám ventilátor", Snackbar.LENGTH_SHORT).show();
 
                 } else {
                     command_sw = "SWITCH1=0";
-                    Snackbar.make(findViewById(android.R.id.content), "vypínám ventilátor", Snackbar.LENGTH_SHORT).show();
+                    //Snackbar.make(findViewById(android.R.id.content), "vypínám ventilátor", Snackbar.LENGTH_SHORT).show();
                 }
 
                 new Thread(new SwitchThread()).start();
@@ -469,8 +473,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //endregion
-        new Thread(new ServiceStartThread()).start();
         seekBarMeritko.setProgress((int)Data.nasobic*100);
+        handler.postDelayed(StartRefresh, 500);
+
+        new Thread(new ServiceStartThread()).start();
 
 
     }
@@ -482,6 +488,14 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+    public Runnable StartRefresh = new Runnable() {
+        @Override
+        public void run() {
+            new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
+
+
+        }
+    };
 
 
     //region ACTIVITY EVENTS
@@ -489,7 +503,9 @@ public class MainActivity extends AppCompatActivity {
     public void onRestart(){
         super.onRestart();
 
-
+        SharedPreferences load = getSharedPreferences("app_data", MODE_PRIVATE);
+        SERVER_IP1 = load.getString("IP1","192.168.10.120");
+        SERVERPORT1 = load.getInt("port1",90);
         new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
 
 
@@ -506,7 +522,8 @@ public class MainActivity extends AppCompatActivity {
         ed.putString("IP2", SERVER_IP2);
         ed.putInt("port1",SERVERPORT1);
         ed.putInt("port2",SERVERPORT2);
-        ed.putInt("notif",sec);
+        ed.putInt("notif",Data.notifperiod);
+        ed.putBoolean("notif_en",Data.notif);
         ed.putInt("rgb",lastcolor);
         ed.putFloat("meritko",(float)Data.nasobic);
         ed.commit();
@@ -532,7 +549,8 @@ public class MainActivity extends AppCompatActivity {
         sec = load.getInt("notif",20);
         lastcolor = load.getInt("rgb",Color.rgb(0,100,255)); //TODO: nefunguji seekbary
         Data.nasobic = load.getFloat("meritko", 1);
-
+        Data.notif = load.getBoolean("notif_en", true);
+        Data.notifperiod = load.getInt("notif", 5);
 
         //new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
 
@@ -635,8 +653,11 @@ public class MainActivity extends AppCompatActivity {
 
         public void run() {
 
+
+
+
             try {
-                Thread.sleep(2000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -691,16 +712,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText input = new EditText(this);
 
 
-        AlertDialog.Builder builderLED = new AlertDialog.Builder(MainActivity.this)
-                .setTitle("LED controller address")
-                .setView(R.layout.addressdialog)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
 
-                        //SERVER_IP2 = IP.getText().toString();
-                        //SERVERPORT2 = Integer.parseInt(port.getText().toString());
-                    }
-                });
 
 
 
@@ -715,28 +727,13 @@ public class MainActivity extends AppCompatActivity {
                 });
 
 
-        AlertDialog.Builder notiftick = new AlertDialog.Builder(MainActivity.this)
-                .setTitle("Notification update period")
-
-                .setView(input)
 
 
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
 
 
-                        sec = 20;//Integer.getInteger(input.getText().toString());
-
-                        //SERVERPORT1 = Integer.parseInt(input2.getText().toString());
-
-                    }
-                });
-
-
-        final AlertDialog dialogLED = builderLED.create();
        // final AlertDialog dialogIOT = builderIOT.create();
         final AlertDialog about = aboutbuilder.create();
-        final AlertDialog notif = notiftick.create();
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.Brainsettings) {
 
@@ -847,7 +844,50 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.notifTick) {
-            notif.show();
+
+            final Dialog dialog = new Dialog(context);
+            dialog.setContentView(R.layout.notification_dialog);
+            dialog.setTitle("Title");
+
+
+
+
+            Button ok = (Button) dialog.findViewById(R.id.button8);
+            final EditText period=(EditText)dialog.findViewById(R.id.editText3);
+           final CheckBox enable =(CheckBox) dialog.findViewById(R.id.checkBox);
+            enable.setChecked(Data.notif);
+            period.setText(Integer.toString(Data.notifperiod));
+
+
+            ok.setOnClickListener(new View.OnClickListener() {
+                //EditText edit=(EditText)dialog.findViewById(R.id.editText);
+
+
+                public void onClick(View v) {
+
+
+                    dialog.dismiss();
+                    Data.notif = enable.isChecked();
+                    Data.notifperiod = Integer.parseInt(period.getText().toString());
+                    if (Data.notif){
+                        AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    alarm.set(
+                            alarm.RTC_WAKEUP,
+                            System.currentTimeMillis() + (1000 * Data.notifperiod * 60),
+                            PendingIntent.getService(context, 0, new Intent(context, MyService.class), 0)
+                    );
+
+                  }
+                }
+            });
+
+
+
+            dialog.show();
+
+
+
+
             return true;
         }
 
@@ -918,8 +958,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Socket sockettp = new Socket();
-                sockettp.connect(new InetSocketAddress(InetAddress.getByName(IP),port),2000);
-                sockettp.setSoTimeout(2000);
+                sockettp.connect(new InetSocketAddress(InetAddress.getByName(IP),port),5000);
+                sockettp.setSoTimeout(5000);
                 if (sockettp.isBound()) {
                     connSucc = true;
                     PrintWriter out = new PrintWriter(new BufferedWriter(

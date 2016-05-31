@@ -11,6 +11,8 @@ public class Data {
     public static int klid1=17;
     public static int klid2=2;
     public static float hys = (float)0.5;
+    public static boolean notif;
+    public static int notifperiod;
 
 
 }

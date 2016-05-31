@@ -58,7 +58,7 @@ public class MyService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-            if (ConnectedWIFI().contains("MANGO666"))
+            if (ConnectedWIFI().contains("MANGO666") && Data.notif)
         {
 
 
@@ -117,7 +117,7 @@ public class MyService extends Service {
         AlarmManager alarm = (AlarmManager)getSystemService(ALARM_SERVICE);
         alarm.set(
                 alarm.RTC_WAKEUP,
-                System.currentTimeMillis() + (1000 * MainActivity.sec * 60),
+                System.currentTimeMillis() + (1000 * Data.notifperiod * 60),
                 PendingIntent.getService(this, 0, new Intent(this, MyService.class), 0)
         );
     }
@@ -179,17 +179,17 @@ public class MyService extends Service {
 
 
 
-                    String tPokoj = inty.get(1).teplota;
+                  /*  String tPokoj = inty.get(1).teplota;
                     String tObyvak = inty.get(0).teplota;
                     tPokoj = tPokoj.replace(',', '.');
                     tObyvak = tObyvak.replace(',', '.');
 
                     DecimalFormat df = new DecimalFormat("#.##");
 
-                      double rozdil = (Float.parseFloat(tPokoj) - Float.parseFloat(tObyvak));
+                     double rozdil = (Float.parseFloat(tPokoj) - Float.parseFloat(tObyvak));*/
 
                        re.append("Teplota venku: " + inty.get(2).teplota + "°C" +"\r\n");
-                       re.append("Rozdíl teplot v pokojích: " + df.format(rozdil) + "°C" +"\r\n");
+                       re.append("Rozdíl teplot v pokojích: " + inty.get(3).teplota + "°C" +"\r\n");
                     if (sta) re.append("Ventilátor je zapnutý" +"\r\n");
                     else re.append("Ventilátor je vypnutý" +"\r\n");
 
