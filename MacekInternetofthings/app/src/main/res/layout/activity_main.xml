@@ -43,9 +43,15 @@
 </android.support.design.widget.AppBarLayout>
 
 
-
-
     <include layout="@layout/content_main" />
+
+
+
+
+
+
+
+
     <com.dmitrymalkovich.android.ProgressFloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,7 +65,9 @@
             android:src="@drawable/ic_stat_av_loop"
             android:id="@+id/FAB"
             android:tint="#00312424"
-            app:backgroundTint="@color/colorPrimary" />
+            app:fabSize="mini"
+
+            app:backgroundTint="@color/colorAccent" />
 
         <ProgressBar
             style="@style/Widget.AppCompat.ProgressBar"
@@ -67,7 +75,30 @@
             android:layout_height="wrap_content"
             android:id="@+id/FABpb"
             android:max="2"
+
             android:visibility="invisible" />
 
     </com.dmitrymalkovich.android.ProgressFloatingActionButton>
+
+
+    <com.github.rubensousa.floatingtoolbar.FloatingToolbar
+        android:id="@+id/floatingToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        app:floatingCustomView="@layout/seekb" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_action_image_tune"
+        app:backgroundTint="@color/colorPrimary"
+        android:adjustViewBounds="true" />
+
+
+
+
 </android.support.design.widget.CoordinatorLayout>

@@ -20,3 +20,15 @@ C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\obj\x86\
 C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Martin\Documents\Visual Studio 2015\Projects\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.csprojResolveAssemblyReference.cache
+C:\Users\Martin\AndroidStudioProjects\IoTbrain\IoTbrain\bin\Debug\IoTbrain.exe.config
+C:\Users\Martin\AndroidStudioProjects\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.exe
+C:\Users\Martin\AndroidStudioProjects\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.pdb
+C:\Users\Martin\AndroidStudioProjects\IoTbrain\IoTbrain\bin\Debug\IoTbrain.exe
+C:\Users\Martin\AndroidStudioProjects\IoTbrain\IoTbrain\bin\Debug\IoTbrain.pdb
+C:\Users\Martin\AndroidStudioProjects\IoTbrain\IoTbrain\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Martin\AndroidStudioProjects\IoTbrain\IoTbrain\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Martin\AndroidStudioProjects\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.csprojResolveAssemblyReference.cache
+C:\Users\Martin\AndroidStudioProjects\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.Form1.resources
+C:\Users\Martin\AndroidStudioProjects\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.Properties.Resources.resources
+C:\Users\Martin\AndroidStudioProjects\IoTbrain\IoTbrain\obj\x86\Debug\tcpServer.TcpServer.resources
+C:\Users\Martin\AndroidStudioProjects\IoTbrain\IoTbrain\obj\x86\Debug\IoTbrain.csproj.GenerateResource.Cache

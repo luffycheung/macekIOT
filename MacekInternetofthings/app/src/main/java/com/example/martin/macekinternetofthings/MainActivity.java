@@ -3,57 +3,46 @@ package com.example.martin.macekinternetofthings;
 
 
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Region;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.Looper;
-import android.os.PowerManager;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationUtils;
-import android.webkit.WebChromeClient;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 //import org.ajoberstar.*;
 //import com.example.robinhood.*;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -77,15 +66,17 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
+import java.util.ListIterator;
 import java.util.ServiceConfigurationError;
 
 import static java.lang.Math.abs;
-import static java.lang.Math.random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -124,12 +115,17 @@ public class MainActivity extends AppCompatActivity {
         final SeekBar seekBarG = (SeekBar) findViewById(R.id.seekBar);
         final SeekBar seekBarB = (SeekBar) findViewById(R.id.seekBarBlue);
         final SeekBar seekBarR = (SeekBar) findViewById(R.id.seekBarRed);
-        final SeekBar seekBarMeritko = (SeekBar) findViewById(R.id.meritkoSB);
+       // final SeekBar seekBarMeritko = (SeekBar) findViewById(R.id.meritkoSB);
         final TextView testtxt = (TextView) findViewById(R.id.textView12);
         final EditText ventalarm = (EditText) findViewById(R.id.ventAlarm);
         final SparkView sparkView = (SparkView) findViewById(R.id.sparkview);
         final SparkView sparkView1 = (SparkView) findViewById(R.id.sparkview2);
         final SparkView sparkView2 = (SparkView) findViewById(R.id.sparkview3);
+        final SparkView sparkView3 = (SparkView) findViewById(R.id.sparkview4);
+        final FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.FAB);
+        final FloatingActionButton myFab2 = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fFab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingToolbar fToolbar = (FloatingToolbar) findViewById(R.id.floatingToolbar);
 
         Switch sw = (Switch) findViewById(R.id.switch1);
         Button off = (Button) findViewById(R.id.button2);
@@ -153,6 +149,21 @@ public class MainActivity extends AppCompatActivity {
         sparkView.setAnimateChanges(true);
         sparkView1.setAnimateChanges(true);
         sparkView2.setAnimateChanges(true);
+
+        fToolbar.attachFab(fFab);
+        myFab.hide();
+
+
+
+
+
+
+
+        final View iView = fToolbar.getCustomView();
+        final SeekBar seekBarMeritko = (SeekBar) iView.findViewById(R.id.meritkoSBfloat);
+        Button float_ok = (Button) iView.findViewById(R.id.button3);
+
+       final Handler handler = new Handler();
 
 
         //region SEEKBARY
@@ -289,10 +300,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // TODO Auto-generated method stub
-                Data.nasobic = (float)(progress+100)/100;
+                Data.nasobic = (double)(progress)/100;
                 sparkView.populatePath();
                 sparkView1.populatePath();
                 sparkView2.populatePath();
+                sparkView3.populatePath();
 
 
 
@@ -317,6 +329,27 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        float_ok.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                fToolbar.hide();
+                myFab.hide();
+            }
+        });
+
+        myFab2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //myFab.show();
+
+
+                fToolbar.show();
+                handler.postDelayed(FABshow, 500);
+            }
+        });
+
+
+
+
 
         selectClr.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -390,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        final FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.FAB);
+
 
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -398,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
                 new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
             }
         });
-        myFab.performClick();
+       // myFab.performClick();
 
 
 
@@ -416,11 +449,11 @@ public class MainActivity extends AppCompatActivity {
                 if (isChecked) {
                     command_sw = "SWITCH1=1_" + ventalarm.getText();
 
-                    Snackbar.make(findViewById(android.R.id.content), "zapínám ventilátor", Snackbar.LENGTH_SHORT).show();
+                    //Snackbar.make(findViewById(android.R.id.content), "zapínám ventilátor", Snackbar.LENGTH_SHORT).show();
 
                 } else {
                     command_sw = "SWITCH1=0";
-                    Snackbar.make(findViewById(android.R.id.content), "vypínám ventilátor", Snackbar.LENGTH_SHORT).show();
+                    //Snackbar.make(findViewById(android.R.id.content), "vypínám ventilátor", Snackbar.LENGTH_SHORT).show();
                 }
 
                 new Thread(new SwitchThread()).start();
@@ -440,10 +473,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //endregion
+        seekBarMeritko.setProgress((int)Data.nasobic*100);
+        handler.postDelayed(StartRefresh, 500);
+
         new Thread(new ServiceStartThread()).start();
 
 
     }
+     public Runnable FABshow = new Runnable() {
+        @Override
+        public void run() {
+            FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.FAB);
+            myFab.show();
+
+        }
+    };
+    public Runnable StartRefresh = new Runnable() {
+        @Override
+        public void run() {
+            new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
+
+
+        }
+    };
 
 
     //region ACTIVITY EVENTS
@@ -451,7 +503,9 @@ public class MainActivity extends AppCompatActivity {
     public void onRestart(){
         super.onRestart();
 
-
+        SharedPreferences load = getSharedPreferences("app_data", MODE_PRIVATE);
+        SERVER_IP1 = load.getString("IP1","192.168.10.120");
+        SERVERPORT1 = load.getInt("port1",90);
         new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
 
 
@@ -468,7 +522,8 @@ public class MainActivity extends AppCompatActivity {
         ed.putString("IP2", SERVER_IP2);
         ed.putInt("port1",SERVERPORT1);
         ed.putInt("port2",SERVERPORT2);
-        ed.putInt("notif",sec);
+        ed.putInt("notif",Data.notifperiod);
+        ed.putBoolean("notif_en",Data.notif);
         ed.putInt("rgb",lastcolor);
         ed.putFloat("meritko",(float)Data.nasobic);
         ed.commit();
@@ -483,7 +538,7 @@ public class MainActivity extends AppCompatActivity {
         SeekBar seekBarG = (SeekBar) findViewById(R.id.seekBar);
         SeekBar seekBarB = (SeekBar) findViewById(R.id.seekBarBlue);
         SeekBar seekBarR = (SeekBar) findViewById(R.id.seekBarRed);
-        SeekBar seekBarMeritko = (SeekBar) findViewById(R.id.meritkoSB);
+        //SeekBar seekBarMeritko = (SeekBar) findViewById(R.id.meritkoSB);
 
         SharedPreferences load = getSharedPreferences("app_data", MODE_PRIVATE);
 
@@ -493,22 +548,11 @@ public class MainActivity extends AppCompatActivity {
         SERVERPORT2 = load.getInt("port2",43333);
         sec = load.getInt("notif",20);
         lastcolor = load.getInt("rgb",Color.rgb(0,100,255)); //TODO: nefunguji seekbary
-        Data.nasobic = load.getFloat("meritko",1);
+        Data.nasobic = load.getFloat("meritko", 1);
+        Data.notif = load.getBoolean("notif_en", true);
+        Data.notifperiod = load.getInt("notif", 5);
 
-        try {
-            seekBarR.setProgress(Color.red(lastcolor)*3);
-            Thread.sleep(90);
-            seekBarG.setProgress(Color.green(lastcolor)*3);
-            Thread.sleep(90);
-            seekBarB.setProgress(Color.blue(lastcolor)*4);
-            seekBarMeritko.setProgress((int)Data.nasobic*100);
-
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        catch (NullPointerException e){}
-        new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
+        //new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
 
 
 
@@ -609,8 +653,11 @@ public class MainActivity extends AppCompatActivity {
 
         public void run() {
 
+
+
+
             try {
-                Thread.sleep(2000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -630,6 +677,9 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
+
     //endregion
 
     //region MENU
@@ -662,16 +712,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText input = new EditText(this);
 
 
-        AlertDialog.Builder builderLED = new AlertDialog.Builder(MainActivity.this)
-                .setTitle("LED controller address")
-                .setView(R.layout.addressdialog)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
 
-                        //SERVER_IP2 = IP.getText().toString();
-                        //SERVERPORT2 = Integer.parseInt(port.getText().toString());
-                    }
-                });
 
 
 
@@ -686,28 +727,13 @@ public class MainActivity extends AppCompatActivity {
                 });
 
 
-        AlertDialog.Builder notiftick = new AlertDialog.Builder(MainActivity.this)
-                .setTitle("Notification update period")
-
-                .setView(input)
 
 
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
 
 
-                        sec = 20;//Integer.getInteger(input.getText().toString());
-
-                        //SERVERPORT1 = Integer.parseInt(input2.getText().toString());
-
-                    }
-                });
-
-
-        final AlertDialog dialogLED = builderLED.create();
        // final AlertDialog dialogIOT = builderIOT.create();
         final AlertDialog about = aboutbuilder.create();
-        final AlertDialog notif = notiftick.create();
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.Brainsettings) {
 
@@ -818,7 +844,50 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.notifTick) {
-            notif.show();
+
+            final Dialog dialog = new Dialog(context);
+            dialog.setContentView(R.layout.notification_dialog);
+            dialog.setTitle("Title");
+
+
+
+
+            Button ok = (Button) dialog.findViewById(R.id.button8);
+            final EditText period=(EditText)dialog.findViewById(R.id.editText3);
+           final CheckBox enable =(CheckBox) dialog.findViewById(R.id.checkBox);
+            enable.setChecked(Data.notif);
+            period.setText(Integer.toString(Data.notifperiod));
+
+
+            ok.setOnClickListener(new View.OnClickListener() {
+                //EditText edit=(EditText)dialog.findViewById(R.id.editText);
+
+
+                public void onClick(View v) {
+
+
+                    dialog.dismiss();
+                    Data.notif = enable.isChecked();
+                    Data.notifperiod = Integer.parseInt(period.getText().toString());
+                    if (Data.notif){
+                        AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    alarm.set(
+                            alarm.RTC_WAKEUP,
+                            System.currentTimeMillis() + (1000 * Data.notifperiod * 60),
+                            PendingIntent.getService(context, 0, new Intent(context, MyService.class), 0)
+                    );
+
+                  }
+                }
+            });
+
+
+
+            dialog.show();
+
+
+
+
             return true;
         }
 
@@ -832,6 +901,7 @@ public class MainActivity extends AppCompatActivity {
         TextView temp1 = (TextView) findViewById(R.id.tobyvak);
         TextView temp2 = (TextView) findViewById(R.id.tvenek);
         TextView temp3 = (TextView) findViewById(R.id.tpokoj);
+        TextView temp4 = (TextView) findViewById(R.id.tdelta);
         TextView cas1 = (TextView) findViewById(R.id.casView1);
         TextView cas2 = (TextView) findViewById(R.id.casView2);
         TextView cas3 = (TextView) findViewById(R.id.casView3);
@@ -844,19 +914,24 @@ public class MainActivity extends AppCompatActivity {
         TextView max2 = (TextView) findViewById(R.id.tmax2);
         TextView min3 = (TextView) findViewById(R.id.tmin3);
         TextView max3 = (TextView) findViewById(R.id.tmax3);
+        TextView min4 = (TextView) findViewById(R.id.tmin4);
+        TextView max4 = (TextView) findViewById(R.id.tmax4);
         TextView hod1 = (TextView) findViewById(R.id.thod1);
         TextView hod2 = (TextView) findViewById(R.id.thod2);
         TextView hod3 = (TextView) findViewById(R.id.thod3);
+        TextView hod4 = (TextView) findViewById(R.id.thod4);
         ProgressBar prg = (ProgressBar) findViewById(R.id.FABpb);
         Switch sw = (Switch) findViewById(R.id.switch1);
         SparkView sparkView = (SparkView) findViewById(R.id.sparkview);
         SparkView sparkView1 = (SparkView) findViewById(R.id.sparkview2);
         SparkView sparkView2 = (SparkView) findViewById(R.id.sparkview3);
+        SparkView sparkView3 = (SparkView) findViewById(R.id.sparkview4);
 
 
         String response1;
         String response2;
         String response3;
+        String response4;
         String response;
         boolean connSucc = false;
         String IP;
@@ -866,6 +941,7 @@ public class MainActivity extends AppCompatActivity {
         List<Float> teploty1;
         List<Float> teploty2;
         List<Float> teploty3;
+        List<Float> teploty4;
         @Override
         protected String doInBackground(Object... args) {
             // code where data is processing
@@ -882,8 +958,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Socket sockettp = new Socket();
-                sockettp.connect(new InetSocketAddress(InetAddress.getByName(IP),port),2000);
-                sockettp.setSoTimeout(2000);
+                sockettp.connect(new InetSocketAddress(InetAddress.getByName(IP),port),5000);
+                sockettp.setSoTimeout(5000);
                 if (sockettp.isBound()) {
                     connSucc = true;
                     PrintWriter out = new PrintWriter(new BufferedWriter(
@@ -917,9 +993,26 @@ public class MainActivity extends AppCompatActivity {
                     response1 = inty.get(0).teplota;
                     response2 = inty.get(1).teplota;
                     response3 = inty.get(2).teplota;
+                    response4 = inty.get(3).teplota;
+
+
+
+
+
+
                     teploty1 = inty.get(0).teploty;
                     teploty2 = inty.get(1).teploty;
                     teploty3 = inty.get(2).teploty;
+                    teploty4 = inty.get(3).teploty;
+
+
+
+
+
+
+
+
+
 
                 }
                 else {
@@ -950,9 +1043,11 @@ public class MainActivity extends AppCompatActivity {
                 temp1.setText(response1 + " °C");
                 temp2.setText(response2 + " °C");
                 temp3.setText(response3 + " °C");
+                temp4.setText(response4 + " °C");
                 hod1.setText(time);
                 hod2.setText(time);
                 hod3.setText(time);
+                hod4.setText(time);
 
                 try {
 
@@ -960,10 +1055,12 @@ public class MainActivity extends AppCompatActivity {
                     float[] t1 = ArrayUtils.toPrimitive(teploty1.toArray(new Float[teploty1.size()]));
                     float[] t2 = ArrayUtils.toPrimitive(teploty2.toArray(new Float[teploty2.size()]));
                     float[] t3 = ArrayUtils.toPrimitive(teploty3.toArray(new Float[teploty3.size()]));
+                    float[] t4 = ArrayUtils.toPrimitive(teploty4.toArray(new Float[teploty4.size()]));
 
                     sparkView.setAdapter(new MyAdapter(t3));
                     sparkView1.setAdapter(new MyAdapter(t1));
                     sparkView2.setAdapter(new MyAdapter(t2));
+                    sparkView3.setAdapter(new MyAdapter(t4));
 
                     DateFormat datumFormat = new SimpleDateFormat("dd.MM.yy");
                     final Integer hodina = (c.get(Calendar.HOUR_OF_DAY));
@@ -983,6 +1080,9 @@ public class MainActivity extends AppCompatActivity {
                     max2.setText("Max: " + Collections.max(teploty1).toString() + " °C");
                     min3.setText("Min: " + Collections.min(teploty2).toString() + " °C");
                     max3.setText("Max: " + Collections.max(teploty2).toString() + " °C");
+                    min4.setText("Min: " + Collections.min(teploty4).toString() + " °C");
+                    max4.setText("Max: " + Collections.max(teploty4).toString() + " °C");
+
 
 
                     final float xIndex = (float)0.024;
@@ -1055,6 +1155,29 @@ public class MainActivity extends AppCompatActivity {
 
 
                     });
+                    sparkView3.setScrubListener(new SparkView.OnScrubListener() {
+                        @Override
+                        public void onScrubbed(Object value, Float x) {
+
+
+                            String scrub = getString(R.string.scrub_format, value);
+                            if (value == null) {
+                                temp4.setText(response4 + " °C");
+                                hod4.setText(time);
+
+                            } else {
+                                Integer h = hodina + Math.round((x-(float)0.5)*xIndex);
+                                if (h>=24) h=h-24;
+                                temp4.setText(scrub + " °C");
+                                hod4.setText(h+"h");
+                            }
+
+
+
+                        }
+
+
+                    });
 
                 } catch (NullPointerException e1) {
                 }
@@ -1066,14 +1189,9 @@ public class MainActivity extends AppCompatActivity {
                 int randColor2 = RandomUtils.nextInt(0,220);
                 int randColor3 = RandomUtils.nextInt(0,220);
                 sparkView.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
-                randColor1 = RandomUtils.nextInt(0,220);
-                randColor2 = RandomUtils.nextInt(0,220);
-                randColor3 = RandomUtils.nextInt(0,220);
                 sparkView1.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
-                randColor1 = RandomUtils.nextInt(0,220);
-                randColor2 = RandomUtils.nextInt(0,220);
-                randColor3 = RandomUtils.nextInt(0,220);
                 sparkView2.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
+                sparkView3.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
 
                 sw.setChecked(sta);
             }else
