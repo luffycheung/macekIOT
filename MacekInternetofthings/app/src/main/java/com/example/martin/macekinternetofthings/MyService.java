@@ -41,6 +41,7 @@ import java.util.concurrent.ExecutionException;
 
 public class MyService extends Service {
     public String response;
+    private String tvenek;
 
     private String ConnectedWIFI() {
         WifiManager wifiMgr = (WifiManager) super.getSystemService(Context.WIFI_SERVICE);
@@ -72,31 +73,36 @@ public class MyService extends Service {
 
             if (response != null) {
 
-                StringBuilder re = new StringBuilder();
+               // StringBuilder re = new StringBuilder();
 
 
+
+
+
+                PendingIntent pIntent = PendingIntent.getService(this, 0, new Intent(this, MyService.class), 0);
 
 
                 NotificationCompat.Builder mBuilder =
                         (NotificationCompat.Builder) new NotificationCompat.Builder(this)
                                 .setSmallIcon(R.drawable.ic_stat_file_cloud)
                                 .setColor(getResources().getColor(R.color.colorPrimary))
-                                .setContentTitle("MacIoT update")
+                                .setContentTitle("MacIoT update - venku " + tvenek + "°C")
                                 .setPriority(Notification.PRIORITY_MAX)
+                                .addAction(R.drawable.ic_action_refresh_icon, "REFRESH", pIntent)
                                 .setStyle(new NotificationCompat.BigTextStyle().bigText(response));
 
 
                 int mNotificationId = 001;
 
+                NotificationManager mNotifyMgr =
+                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                         new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
                 mBuilder.setContentIntent(contentIntent);
-                NotificationManager mNotifyMgr =
-                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-
+                mNotifyMgr.cancel(001);
                 mNotifyMgr.notify(mNotificationId, mBuilder.build());
             }
         }
@@ -187,8 +193,8 @@ public class MyService extends Service {
                     DecimalFormat df = new DecimalFormat("#.##");
 
                      double rozdil = (Float.parseFloat(tPokoj) - Float.parseFloat(tObyvak));*/
-
-                       re.append("Teplota venku: " + inty.get(2).teplota + "°C" +"\r\n");
+                        tvenek = inty.get(2).teplota;
+                       re.append("Teplota venku: " + tvenek + "°C" +"\r\n");
                        re.append("Rozdíl teplot v pokojích: " + inty.get(3).teplota + "°C" +"\r\n");
                     if (sta) re.append("Ventilátor je zapnutý" +"\r\n");
                     else re.append("Ventilátor je vypnutý" +"\r\n");
