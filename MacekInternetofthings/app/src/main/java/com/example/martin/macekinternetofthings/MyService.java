@@ -102,7 +102,10 @@ public class MyService extends Service {
 
                 mBuilder.setContentIntent(contentIntent);
 
-                mNotifyMgr.cancel(001);
+               // mNotifyMgr.cancel(001);
+
+
+
                 mNotifyMgr.notify(mNotificationId, mBuilder.build());
             }
         }

@@ -57,7 +57,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
-        android:layout_gravity="bottom|right">
+        android:layout_gravity="bottom|right"
+        android:minHeight="140dp">
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -67,7 +68,7 @@
             android:tint="#00312424"
             app:fabSize="mini"
 
-            app:backgroundTint="@color/colorAccent" />
+            app:backgroundTint="@color/colorPrimaryLight" />
 
         <ProgressBar
             style="@style/Widget.AppCompat.ProgressBar"

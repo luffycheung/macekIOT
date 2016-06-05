@@ -15,15 +15,18 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
@@ -85,6 +88,10 @@ public class MainActivity extends AppCompatActivity {
     public static int SERVERPORT1;
     public static String SERVER_IP1;
     public static int sec = 20;
+    public int scrollY;
+
+    public boolean scrollrun = false;
+    public boolean toolbarshown = false;
     private int SERVERPORT2;
     private String SERVER_IP2;
     private String command = "";
@@ -104,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setSubtitle("internet of things controller");
 
@@ -165,6 +172,33 @@ public class MainActivity extends AppCompatActivity {
 
        final Handler handler = new Handler();
 
+       final NestedScrollView nScrollView =  (NestedScrollView) findViewById(R.id.nScrolView);
+
+        nScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+
+            @Override
+            public void onScrollChanged() {
+
+                 scrollY = nScrollView.getScrollY(); //for verticalScrollView
+
+
+                myFab2.hide();
+                if (toolbarshown) ftoolbarhide.run();
+
+
+                if (scrollrun == false)
+                {
+
+                    new Thread(new ScrollThread()).start();
+                    scrollrun = true;
+                }
+
+
+
+            }
+
+
+        });
 
         //region SEEKBARY
         seekBarG.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -334,6 +368,7 @@ public class MainActivity extends AppCompatActivity {
 
                 fToolbar.hide();
                 myFab.hide();
+                toolbarshown = false;
             }
         });
 
@@ -344,6 +379,7 @@ public class MainActivity extends AppCompatActivity {
 
                 fToolbar.show();
                 handler.postDelayed(FABshow, 500);
+                toolbarshown = true;
             }
         });
 
@@ -474,7 +510,7 @@ public class MainActivity extends AppCompatActivity {
         });
         //endregion
         seekBarMeritko.setProgress((int)Data.nasobic*100);
-        handler.postDelayed(StartRefresh, 500);
+        handler.postDelayed(StartRefresh, 1000);
 
         new Thread(new ServiceStartThread()).start();
 
@@ -486,6 +522,15 @@ public class MainActivity extends AppCompatActivity {
             FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.FAB);
             myFab.show();
 
+
+        }
+    };
+    public Runnable FABshow2 = new Runnable() {
+        @Override
+        public void run() {
+            FloatingActionButton myFab2 = (FloatingActionButton) findViewById(R.id.fab);
+            myFab2.show();
+
         }
     };
     public Runnable StartRefresh = new Runnable() {
@@ -496,6 +541,21 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+    public Runnable ftoolbarhide = new Runnable() {
+        @Override
+        public void run() {
+            FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.FAB);
+            FloatingToolbar fToolbar = (FloatingToolbar) findViewById(R.id.floatingToolbar);
+
+
+            fToolbar.hide();
+            myFab.hide();
+            toolbarshown = false;
+
+
+        }
+    };
+
 
 
     //region ACTIVITY EVENTS
@@ -596,7 +656,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                in.reset();
+               // in.reset();
                 socket.close();
 
             } catch (UnknownHostException e1) {
@@ -678,7 +738,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    class ScrollThread implements Runnable {
 
+
+        public void run() {
+            Looper.prepare();
+            try {
+
+                int prevscroll;
+                while (scrollrun == true){
+                    prevscroll = scrollY;
+                    Thread.sleep(150);
+
+                    if (prevscroll == scrollY)
+                    {
+                        scrollrun = false;
+
+
+                        FABshow2.run();
+
+                    }
+
+                }
+
+
+
+
+
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+
+    }
 
     //endregion
 
@@ -1039,7 +1135,7 @@ public class MainActivity extends AppCompatActivity {
                 DateFormat casFormat = new SimpleDateFormat("HH:mm");
 
                 final String time = casFormat.format(c.getTime());
-                Snackbar.make(findViewById(R.id.clayout), "teploty úspěšně obnoveny", Snackbar.LENGTH_SHORT).show();
+              //  Snackbar.make(findViewById(R.id.clayout), "teploty úspěšně obnoveny", Snackbar.LENGTH_SHORT).show();
                 temp1.setText(response1 + " °C");
                 temp2.setText(response2 + " °C");
                 temp3.setText(response3 + " °C");
@@ -1187,7 +1283,7 @@ public class MainActivity extends AppCompatActivity {
                 // sparkView.setAnimateChanges(true);
                 int randColor1 = RandomUtils.nextInt(0,220);
                 int randColor2 = RandomUtils.nextInt(0,220);
-                int randColor3 = RandomUtils.nextInt(0,220);
+                int randColor3 = RandomUtils.nextInt(0,220) + 35;
                 sparkView.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
                 sparkView1.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
                 sparkView2.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
