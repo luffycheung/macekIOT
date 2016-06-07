@@ -42,6 +42,7 @@ import java.util.concurrent.ExecutionException;
 public class MyService extends Service {
     public String response;
     private String tvenek;
+    private String tbazen;
 
     private String ConnectedWIFI() {
         WifiManager wifiMgr = (WifiManager) super.getSystemService(Context.WIFI_SERVICE);
@@ -78,16 +79,18 @@ public class MyService extends Service {
 
 
 
-
+              Data.command_sw="SWITCH1=1";
                 PendingIntent pIntent = PendingIntent.getService(this, 0, new Intent(this, MyService.class), 0);
+               // PendingIntent pIntent2 = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.SwitchThread.class), 0);
 
 
                 NotificationCompat.Builder mBuilder =
                         (NotificationCompat.Builder) new NotificationCompat.Builder(this)
                                 .setSmallIcon(R.drawable.ic_stat_file_cloud)
                                 .setColor(getResources().getColor(R.color.colorPrimary))
-                                .setContentTitle("MacIoT update - venku " + tvenek + "°C")
+                                .setContentTitle("MIoT - venku " + tvenek + "°C, bazén " + tbazen + "°C")
                                 .setPriority(Notification.PRIORITY_MAX)
+                                //.addAction(R.drawable.ic_action_refresh_icon, "zapnout ventilátor", pIntent2)
                                 .addAction(R.drawable.ic_action_refresh_icon, "REFRESH", pIntent)
                                 .setStyle(new NotificationCompat.BigTextStyle().bigText(response));
 
@@ -155,8 +158,8 @@ public class MyService extends Service {
 
 
                 Socket sockettp = new Socket();
-                sockettp.connect(new InetSocketAddress(InetAddress.getByName(IP),port),3000);
-                sockettp.setSoTimeout(3000);
+                sockettp.connect(new InetSocketAddress(InetAddress.getByName(IP),port),5000);
+                sockettp.setSoTimeout(5000);
                 if (sockettp.isBound()){
                     connSucc = true;
                     PrintWriter out = new PrintWriter(new BufferedWriter(
@@ -164,7 +167,7 @@ public class MyService extends Service {
                             true);
                     out.println(command);
                     BufferedReader in = new BufferedReader(new InputStreamReader(sockettp.getInputStream()));
-                    char[] data = new char[2000];
+                    char[] data = new char[8000];
                     in.read(data, 0, data.length);
                     response = new String(data).trim();
                     sockettp.close();
@@ -197,7 +200,9 @@ public class MyService extends Service {
 
                      double rozdil = (Float.parseFloat(tPokoj) - Float.parseFloat(tObyvak));*/
                         tvenek = inty.get(2).teplota;
+                        tbazen = inty.get(4).teplota;
                        re.append("Teplota venku: " + tvenek + "°C" +"\r\n");
+                        re.append("Teplota bazénu: " + tbazen + "°C" +"\r\n");
                        re.append("Rozdíl teplot v pokojích: " + inty.get(3).teplota + "°C" +"\r\n");
                     if (sta) re.append("Ventilátor je zapnutý" +"\r\n");
                     else re.append("Ventilátor je vypnutý" +"\r\n");

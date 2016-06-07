@@ -1082,8 +1082,11 @@ namespace IoTbrain
 
                 product.teplomery.Add(new  Teplomer{ id = "1", teplota = SQL_last_temp("temp1_1"), teploty = tObyvak });
                 product.teplomery.Add(new Teplomer { id = "2", teplota = SQL_last_temp("temp3_1"), teploty = tPokoj });
-                product.teplomery.Add(new Teplomer { id = "3", teplota = SQL_last_temp("temp2_1"), teploty = SQL_whole_day("temp2_1") });
+                product.teplomery.Add(new Teplomer { id = "3", teplota = SQL_last_temp("temp2_3"), teploty = SQL_whole_day("temp2_3") }); //venek
                 product.teplomery.Add(new Teplomer { id = "4", teplota = rozdil.ToString(), teploty = tDelta });
+                product.teplomery.Add(new Teplomer { id = "5", teplota = SQL_last_temp("temp2_2"), teploty = SQL_whole_day("temp2_2") }); //bazen-voda
+                product.teplomery.Add(new Teplomer { id = "6", teplota = SQL_last_temp("temp2_1"), teploty = SQL_whole_day("temp2_1") }); //bazen-poklop
+                product.teplomery.Add(new Teplomer { id = "7", teplota = SQL_last_temp("temp2_4"), teploty = SQL_whole_day("temp2_4") }); //teplota ESP
 
                 //product.teplomery.Add(new Teplomer { id = "4", teploty = SQL_whole_day("temp2_1") });
                 json = JsonConvert.SerializeObject(product);

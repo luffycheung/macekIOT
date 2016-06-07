@@ -16,20 +16,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -59,6 +55,7 @@ import org.apache.commons.lang3.RandomUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -69,14 +66,10 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.ServiceConfigurationError;
 
 import static java.lang.Math.abs;
@@ -95,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private int SERVERPORT2;
     private String SERVER_IP2;
     private String command = "";
-    private String command_sw = "";
+   // private String command_sw = "";
     private String PWMcommand = "";
     private String PWMcommand1 = "";
     private String PWMcommand2 = "";
@@ -483,12 +476,12 @@ public class MainActivity extends AppCompatActivity {
                 // new Thread(new ClientThread()).start();
 
                 if (isChecked) {
-                    command_sw = "SWITCH1=1_" + ventalarm.getText();
+                    Data.command_sw = "SWITCH1=1_" + ventalarm.getText();
 
                     //Snackbar.make(findViewById(android.R.id.content), "zapínám ventilátor", Snackbar.LENGTH_SHORT).show();
 
                 } else {
-                    command_sw = "SWITCH1=0";
+                    Data.command_sw = "SWITCH1=0";
                     //Snackbar.make(findViewById(android.R.id.content), "vypínám ventilátor", Snackbar.LENGTH_SHORT).show();
                 }
 
@@ -641,7 +634,7 @@ public class MainActivity extends AppCompatActivity {
                         new OutputStreamWriter(socket.getOutputStream())),
                         true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                out.println(command_sw);
+                out.println(Data.command_sw);
 
 
 
@@ -994,16 +987,22 @@ public class MainActivity extends AppCompatActivity {
 
 
     private class ZjistitTeploty extends AsyncTask<Object, Void, String> {
-        TextView temp1 = (TextView) findViewById(R.id.tobyvak);
-        TextView temp2 = (TextView) findViewById(R.id.tvenek);
-        TextView temp3 = (TextView) findViewById(R.id.tpokoj);
-        TextView temp4 = (TextView) findViewById(R.id.tdelta);
+        TextView temp1 = (TextView) findViewById(R.id.t1);
+        TextView temp2 = (TextView) findViewById(R.id.t2);
+        TextView temp3 = (TextView) findViewById(R.id.t3);
+        TextView temp4 = (TextView) findViewById(R.id.t4);
+        TextView temp5 = (TextView) findViewById(R.id.t5);
+        TextView temp6 = (TextView) findViewById(R.id.t6);
         TextView cas1 = (TextView) findViewById(R.id.casView1);
         TextView cas2 = (TextView) findViewById(R.id.casView2);
         TextView cas3 = (TextView) findViewById(R.id.casView3);
+        TextView cas4 = (TextView) findViewById(R.id.casView4);
+        TextView cas5 = (TextView) findViewById(R.id.casView5);
         TextView pcas1 = (TextView) findViewById(R.id.pcas1);
         TextView pcas2 = (TextView) findViewById(R.id.pcas2);
         TextView pcas3 = (TextView) findViewById(R.id.pcas3);
+        TextView pcas4 = (TextView) findViewById(R.id.pcas3);
+        TextView pcas5 = (TextView) findViewById(R.id.pcas3);
         TextView min1 = (TextView) findViewById(R.id.tmin1);
         TextView max1 = (TextView) findViewById(R.id.tmax1);
         TextView min2 = (TextView) findViewById(R.id.tmin2);
@@ -1012,22 +1011,29 @@ public class MainActivity extends AppCompatActivity {
         TextView max3 = (TextView) findViewById(R.id.tmax3);
         TextView min4 = (TextView) findViewById(R.id.tmin4);
         TextView max4 = (TextView) findViewById(R.id.tmax4);
+        TextView min5 = (TextView) findViewById(R.id.tmin5);
+        TextView max5 = (TextView) findViewById(R.id.tmax5);
+        TextView min6 = (TextView) findViewById(R.id.tmin6);
+        TextView max6 = (TextView) findViewById(R.id.tmax6);
         TextView hod1 = (TextView) findViewById(R.id.thod1);
         TextView hod2 = (TextView) findViewById(R.id.thod2);
         TextView hod3 = (TextView) findViewById(R.id.thod3);
         TextView hod4 = (TextView) findViewById(R.id.thod4);
+        TextView hod5 = (TextView) findViewById(R.id.thod5);
         ProgressBar prg = (ProgressBar) findViewById(R.id.FABpb);
         Switch sw = (Switch) findViewById(R.id.switch1);
         SparkView sparkView = (SparkView) findViewById(R.id.sparkview);
         SparkView sparkView1 = (SparkView) findViewById(R.id.sparkview2);
         SparkView sparkView2 = (SparkView) findViewById(R.id.sparkview3);
         SparkView sparkView3 = (SparkView) findViewById(R.id.sparkview4);
-
+        SparkView sparkView4 = (SparkView) findViewById(R.id.sparkview5);
 
         String response1;
         String response2;
         String response3;
         String response4;
+        String response5;
+        String response6;
         String response;
         boolean connSucc = false;
         String IP;
@@ -1038,6 +1044,8 @@ public class MainActivity extends AppCompatActivity {
         List<Float> teploty2;
         List<Float> teploty3;
         List<Float> teploty4;
+        List<Float> teploty5;
+        List<Float> teploty6;
         @Override
         protected String doInBackground(Object... args) {
             // code where data is processing
@@ -1063,7 +1071,7 @@ public class MainActivity extends AppCompatActivity {
                             true);
                     out.println(command);
                     BufferedReader in = new BufferedReader(new InputStreamReader(sockettp.getInputStream()));
-                    char[] data = new char[2000];
+                    char[] data = new char[8000];
                     in.read(data, 0, data.length);
                     response = new String(data).trim();
                     sockettp.close();
@@ -1086,20 +1094,25 @@ public class MainActivity extends AppCompatActivity {
 
 
                     List<Inputdata.Davkovac> inty = new Gson().fromJson(o.get("teplomery"), listType);
-                    response1 = inty.get(0).teplota;
-                    response2 = inty.get(1).teplota;
-                    response3 = inty.get(2).teplota;
-                    response4 = inty.get(3).teplota;
+                    response1 = inty.get(2).teplota; //venek
+                    response2 = inty.get(4).teplota; //bazen
+                    response3 = inty.get(1).teplota; //pokoj
+                    response4 = inty.get(3).teplota; //delta
+                    response5 = inty.get(0).teplota; //obyvak
+                    response6 = inty.get(6).teplota; //ESP
 
 
 
 
 
 
-                    teploty1 = inty.get(0).teploty;
-                    teploty2 = inty.get(1).teploty;
-                    teploty3 = inty.get(2).teploty;
+                    teploty1 = inty.get(2).teploty;
+                    teploty2 = inty.get(5).teploty; //poklop
+                    teploty3 = inty.get(1).teploty;
                     teploty4 = inty.get(3).teploty;
+                    teploty5 = inty.get(0).teploty;
+                    teploty6 = inty.get(6).teploty;
+
 
 
 
@@ -1123,6 +1136,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
+
             return null;
         }
 
@@ -1140,10 +1154,14 @@ public class MainActivity extends AppCompatActivity {
                 temp2.setText(response2 + " °C");
                 temp3.setText(response3 + " °C");
                 temp4.setText(response4 + " °C");
+                temp5.setText(response5 + " °C");
+                temp6.setText(response6 + " °C");
                 hod1.setText(time);
                 hod2.setText(time);
                 hod3.setText(time);
                 hod4.setText(time);
+                hod5.setText(time);
+
 
                 try {
 
@@ -1152,11 +1170,14 @@ public class MainActivity extends AppCompatActivity {
                     float[] t2 = ArrayUtils.toPrimitive(teploty2.toArray(new Float[teploty2.size()]));
                     float[] t3 = ArrayUtils.toPrimitive(teploty3.toArray(new Float[teploty3.size()]));
                     float[] t4 = ArrayUtils.toPrimitive(teploty4.toArray(new Float[teploty4.size()]));
+                    float[] t5 = ArrayUtils.toPrimitive(teploty5.toArray(new Float[teploty5.size()]));
 
-                    sparkView.setAdapter(new MyAdapter(t3));
-                    sparkView1.setAdapter(new MyAdapter(t1));
-                    sparkView2.setAdapter(new MyAdapter(t2));
+
+                    sparkView.setAdapter(new MyAdapter(t1));
+                    sparkView1.setAdapter(new MyAdapter(t2));
+                    sparkView2.setAdapter(new MyAdapter(t3));
                     sparkView3.setAdapter(new MyAdapter(t4));
+                    sparkView4.setAdapter(new MyAdapter(t5));
 
                     DateFormat datumFormat = new SimpleDateFormat("dd.MM.yy");
                     final Integer hodina = (c.get(Calendar.HOUR_OF_DAY));
@@ -1164,20 +1185,28 @@ public class MainActivity extends AppCompatActivity {
                     cas1.setText(hod);
                     cas2.setText(hod);
                     cas3.setText(hod);
+                    cas4.setText(hod);
+                    cas5.setText(hod);
                     c.add(Calendar.DATE, -1);
                     String pred = " "+ datumFormat.format(c.getTime());
                     pcas1.setText(hod + pred);
                     pcas2.setText(hod + pred);
                     pcas3.setText(hod + pred);
+                    pcas4.setText(hod + pred);
+                    pcas5.setText(hod + pred);
 
-                    min1.setText("Min: " + Collections.min(teploty3).toString() + " °C");
-                    max1.setText("Max: " + Collections.max(teploty3).toString() + " °C");
-                    min2.setText("Min: " + Collections.min(teploty1).toString() + " °C");
-                    max2.setText("Max: " + Collections.max(teploty1).toString() + " °C");
-                    min3.setText("Min: " + Collections.min(teploty2).toString() + " °C");
-                    max3.setText("Max: " + Collections.max(teploty2).toString() + " °C");
+                    min1.setText("Min: " + Collections.min(teploty1).toString() + " °C");
+                    max1.setText("Max: " + Collections.max(teploty1).toString() + " °C");
+                    min2.setText("Min: " + Collections.min(teploty2).toString() + " °C");
+                    max2.setText("Max: " + Collections.max(teploty2).toString() + " °C");
+                    min3.setText("Min: " + Collections.min(teploty3).toString() + " °C");
+                    max3.setText("Max: " + Collections.max(teploty3).toString() + " °C");
                     min4.setText("Min: " + Collections.min(teploty4).toString() + " °C");
                     max4.setText("Max: " + Collections.max(teploty4).toString() + " °C");
+                    min5.setText("Min: " + Collections.min(teploty5).toString() + " °C");
+                    max5.setText("Max: " + Collections.max(teploty5).toString() + " °C");
+                    min6.setText("Min: " + Collections.min(teploty6).toString() + " °C");
+                    max6.setText("Max: " + Collections.max(teploty6).toString() + " °C");
 
 
 
@@ -1193,14 +1222,14 @@ public class MainActivity extends AppCompatActivity {
 
                             String scrub = getString(R.string.scrub_format, value);
                             if (value == null) {
-                                temp3.setText(response3 + " °C");
+                                temp1.setText(response1 + " °C");
                                 hod1.setText(time);
 
                             } else {
                                 Integer h = hodina + Math.round((x-(float)0.5)*xIndex);
                                 if (h>=24) h=h-24;
 
-                                temp3.setText(scrub + " °C");
+                                temp1.setText(scrub + " °C");
                                 hod1.setText(h+"h");
                             }
 
@@ -1214,14 +1243,14 @@ public class MainActivity extends AppCompatActivity {
 
                             String scrub = getString(R.string.scrub_format, value);
                             if (value == null) {
-                                temp1.setText(response1 + " °C");
+                                temp2.setText(response2 + " °C");
                                 hod2.setText(time);
 
                             } else {
 
                                 Integer h = hodina + Math.round((x-(float)0.5)*xIndex);
                                 if (h>=24) h=h-24;
-                                temp1.setText(scrub + " °C");
+                                temp2.setText(scrub + " °C");
                                 hod2.setText(h+"h");
                             }
 
@@ -1235,13 +1264,13 @@ public class MainActivity extends AppCompatActivity {
 
                             String scrub = getString(R.string.scrub_format, value);
                             if (value == null) {
-                                temp2.setText(response2 + " °C");
+                                temp3.setText(response3 + " °C");
                                 hod3.setText(time);
 
                             } else {
                                 Integer h = hodina + Math.round((x-(float)0.5)*xIndex);
                                 if (h>=24) h=h-24;
-                                temp2.setText(scrub + " °C");
+                                temp3.setText(scrub + " °C");
                                 hod3.setText(h+"h");
                             }
 
@@ -1275,6 +1304,30 @@ public class MainActivity extends AppCompatActivity {
 
                     });
 
+                    sparkView4.setScrubListener(new SparkView.OnScrubListener() {
+                        @Override
+                        public void onScrubbed(Object value, Float x) {
+
+
+                            String scrub = getString(R.string.scrub_format, value);
+                            if (value == null) {
+                                temp5.setText(response5 + " °C");
+                                hod5.setText(time);
+
+                            } else {
+                                Integer h = hodina + Math.round((x-(float)0.5)*xIndex);
+                                if (h>=24) h=h-24;
+                                temp5.setText(scrub + " °C");
+                                hod5.setText(h+"h");
+                            }
+
+
+
+                        }
+
+
+                    });
+
                 } catch (NullPointerException e1) {
                 }
 
@@ -1288,6 +1341,7 @@ public class MainActivity extends AppCompatActivity {
                 sparkView1.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
                 sparkView2.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
                 sparkView3.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
+                sparkView4.setLineColor(Color.rgb(randColor1,randColor2,randColor3));
 
                 sw.setChecked(sta);
             }else

@@ -13,6 +13,7 @@ public class Data {
     public static float hys = (float)0.5;
     public static boolean notif;
     public static int notifperiod;
+    public static String command_sw;
 
 
 }
