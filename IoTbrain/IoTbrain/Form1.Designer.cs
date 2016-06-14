@@ -106,6 +106,9 @@
             this.tcpServer2 = new tcpServer.TcpServer(this.components);
             this.timer4 = new System.Windows.Forms.Timer(this.components);
             this.aut_Timer = new System.Windows.Forms.Timer(this.components);
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label26 = new System.Windows.Forms.Label();
             this.devices.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -577,7 +580,7 @@
             this.log.Name = "log";
             this.log.ReadOnly = true;
             this.log.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.log.Size = new System.Drawing.Size(1222, 86);
+            this.log.Size = new System.Drawing.Size(1238, 144);
             this.log.TabIndex = 3;
             this.log.Text = "";
             // 
@@ -621,7 +624,7 @@
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(367, 9);
+            this.chart1.Location = new System.Drawing.Point(456, 9);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
             series1.BackImageTransparentColor = System.Drawing.Color.White;
@@ -671,7 +674,7 @@
             this.chart1.Series.Add(series2);
             this.chart1.Series.Add(series3);
             this.chart1.Series.Add(series4);
-            this.chart1.Size = new System.Drawing.Size(867, 343);
+            this.chart1.Size = new System.Drawing.Size(794, 343);
             this.chart1.TabIndex = 6;
             this.chart1.Text = "chart1";
             // 
@@ -799,6 +802,8 @@
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
+            this.checkBox3.Checked = true;
+            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox3.Location = new System.Drawing.Point(210, 64);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(86, 17);
@@ -865,11 +870,42 @@
             // 
             this.aut_Timer.Tick += new System.EventHandler(this.aut_Timer_Tick);
             // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(230, 249);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(142, 20);
+            this.textBox2.TabIndex = 27;
+            this.textBox2.Text = "mypc.cz@gmail.com";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(378, 241);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(31, 23);
+            this.button1.TabIndex = 28;
+            this.button1.Text = "OK";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label26.Location = new System.Drawing.Point(227, 230);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(145, 16);
+            this.label26.TabIndex = 29;
+            this.label26.Text = "email pro informace";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1246, 456);
+            this.ClientSize = new System.Drawing.Size(1262, 514);
+            this.Controls.Add(this.label26);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.SQLbutton2);
             this.Controls.Add(this.checkBox3);
@@ -886,10 +922,10 @@
             this.Controls.Add(this.label8);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.chart1);
             this.Controls.Add(this.tablerefresh);
             this.Controls.Add(this.log);
             this.Controls.Add(this.devices);
+            this.Controls.Add(this.chart1);
             this.Name = "Form1";
             this.ShowIcon = false;
             this.Text = "IoT Brain";
@@ -980,6 +1016,9 @@
         private System.Windows.Forms.TextBox ipbox3;
         private System.Windows.Forms.Timer timer4;
         private System.Windows.Forms.Timer aut_Timer;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label26;
     }
 }
 

@@ -15,6 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Globalization;
 using Newtonsoft.Json;
+using System.Net.Mail;
 
 namespace IoTbrain
 {
@@ -33,18 +34,21 @@ namespace IoTbrain
         string command2;
         string command3;
         string sw_command1;
-        
+        string cilovyMail = "mypc.cz@gmail.com";
         private SqlConnection sql;
 
 
 
         bool enabled;
         bool obdobi;
+        bool blokace = false;
+        bool ventZapnut;
         int period;
         int target;
         int kld1;
         int kld2;
         float hyster;
+
 
         //TcpServer tcpServer2 = new TcpServer();
 
@@ -72,6 +76,7 @@ namespace IoTbrain
 
             tcpServer2.Port = 90;
             tcpServer2.Open();
+            
 
             if (checkBox3.Checked) timerS.Start();
                     
@@ -91,6 +96,7 @@ namespace IoTbrain
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             tcpServer2.Close();
+            SendMail("STATUS", "Server byl vypnut v čase " + DateTime.Now.TimeOfDay.ToString());
         }
 
         
@@ -209,7 +215,9 @@ namespace IoTbrain
                     }
                     catch (Exception e2)
                     {
-                        log.AppendText(e2.ToString());
+                        log.AppendText(e2.ToString() + "\r\n");
+                        SendMail("ERROR", "Vyskytl se error při pokusu o zápis do SQL tabulky " + labelbox3.Text + " ...je něco s teploměrem v pokoji?" + "\r\n" + "\r\n"
+                           + "chybové hlášení: " + "\r\n" + e2.ToString());
 
                     }
 
@@ -459,7 +467,10 @@ namespace IoTbrain
                     }
                     catch (Exception e2)
                     {
-                        log.AppendText(e2.ToString());
+                        log.AppendText(e2.ToString() + "\r\n");
+                        SendMail("ERROR", "Vyskytl se error při pokusu o zápis do SQL tabulky " + labelbox3.Text + " ...je něco s teploměrem v pokoji?" + "\r\n" + "\r\n"
+                           + "chybové hlášení: " + "\r\n" + e2.ToString());
+
 
                     }
 
@@ -684,7 +695,9 @@ namespace IoTbrain
                     Int16.TryParse(rcvd.Substring(10), out minute);
                     if (minute != 0)
                     {
-                        log.AppendText("Setting ventilator shutdown after " + minute.ToString() + "\r\n");
+                        log.AppendText("Setting ventilator hold for " + minute.ToString() + "\r\n");
+                        blokace = true;
+                        if (rcvd.Contains("SWITCH1=1")) ventZapnut = true;
                         timer4.Interval = minute * 60 * 1000;
                         timer4.Start();
                     }
@@ -863,6 +876,7 @@ namespace IoTbrain
 
         public List<float> SQL_whole_day(string table)
         {
+            List<float> nullTemps = new List<float>();
             try
             {
 
@@ -909,7 +923,7 @@ namespace IoTbrain
                 log.AppendText(e2.ToString());
 
             }
-            return null;
+            return nullTemps;
         }
         
         #endregion
@@ -987,7 +1001,7 @@ namespace IoTbrain
             }
             catch
             {
-                log.AppendText("TCP failed: " + command1 + "\r\n");
+               // log.AppendText("TCP failed: " + command1 + "\r\n");
             }
             return "TCP error";
         }
@@ -1057,8 +1071,11 @@ namespace IoTbrain
                 float rozdil = (float)Math.Round((float.Parse(SQL_last_temp("temp3_1")) - float.Parse(SQL_last_temp("temp1_1"))), 2);
 
                 List<float> tPokoj = new List<float>(SQL_whole_day("temp3_1"));
-
                 List<float> tObyvak = new List<float>(SQL_whole_day("temp1_1"));
+                List<float> tVenek = new List<float>(SQL_whole_day("temp2_3"));
+                List<float> tBazen1 = new List<float>(SQL_whole_day("temp2_2"));
+                List<float> tBazen2 = new List<float>(SQL_whole_day("temp2_1"));
+                List<float> tESP = new List<float>(SQL_whole_day("temp2_4"));
 
                 List<float> tDelta = new List<float>();
 
@@ -1082,13 +1099,21 @@ namespace IoTbrain
 
                 product.teplomery.Add(new  Teplomer{ id = "1", teplota = SQL_last_temp("temp1_1"), teploty = tObyvak });
                 product.teplomery.Add(new Teplomer { id = "2", teplota = SQL_last_temp("temp3_1"), teploty = tPokoj });
-                product.teplomery.Add(new Teplomer { id = "3", teplota = SQL_last_temp("temp2_3"), teploty = SQL_whole_day("temp2_3") }); //venek
+                product.teplomery.Add(new Teplomer { id = "3", teplota = SQL_last_temp("temp2_3"), teploty = tVenek }); //venek
                 product.teplomery.Add(new Teplomer { id = "4", teplota = rozdil.ToString(), teploty = tDelta });
-                product.teplomery.Add(new Teplomer { id = "5", teplota = SQL_last_temp("temp2_2"), teploty = SQL_whole_day("temp2_2") }); //bazen-voda
-                product.teplomery.Add(new Teplomer { id = "6", teplota = SQL_last_temp("temp2_1"), teploty = SQL_whole_day("temp2_1") }); //bazen-poklop
-                product.teplomery.Add(new Teplomer { id = "7", teplota = SQL_last_temp("temp2_4"), teploty = SQL_whole_day("temp2_4") }); //teplota ESP
+                product.teplomery.Add(new Teplomer { id = "5", teplota = SQL_last_temp("temp2_2"), teploty = tBazen1 }); //bazen-voda
+                product.teplomery.Add(new Teplomer { id = "6", teplota = SQL_last_temp("temp2_1"), teploty = tBazen2 }); //bazen-poklop
+                product.teplomery.Add(new Teplomer { id = "7", teplota = SQL_last_temp("temp2_4"), teploty = tESP }); //teplota ESP
 
-                //product.teplomery.Add(new Teplomer { id = "4", teploty = SQL_whole_day("temp2_1") });
+                if ((tVenek.Count < 2 || tBazen1.Count < 2 || tBazen2.Count < 2 || tESP.Count < 2) && DateTime.Now.Hour > 4)
+                {
+                    SendMail("ERROR", "Počet hlášení od venkovního teploměru je podezřele nízký" + "\r\n" + "\r\n"
+                               + "počty hlášení: " + "\r\n"
+                               + "venek (temp2_3): " +tVenek.Count.ToString() + "\r\n"
+                               + "bazen voda (temp2_2): " + tBazen1.Count.ToString() + "\r\n"
+                               + "bazen poklop (temp2_1): " + tBazen2.Count.ToString() + "\r\n"
+                               + "ESP (temp2_4): " + tESP.Count.ToString() + "\r\n");
+                }
                 json = JsonConvert.SerializeObject(product);
                 
                 return json;
@@ -1121,6 +1146,33 @@ namespace IoTbrain
 
         }
 
+        public void SendMail(string subj , string problem)
+        {
+            NetworkCredential bC = new NetworkCredential("iotdaemon@email.cz", "hovno555655");
+
+            SmtpClient client = new SmtpClient();
+            client.UseDefaultCredentials = false;
+            client.Credentials = bC;
+            client.Port = 25;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.Host = "smtp.seznam.cz";
+            MailAddress from = new MailAddress("iotdaemon@email.cz");
+
+            MailMessage mail = new MailMessage();
+            mail.From = from;
+            mail.To.Add(cilovyMail);
+            mail.Subject = "IoTbrain - " + subj;
+            mail.Body = problem;
+
+            try
+            {
+              client.Send(mail);
+            }
+            catch (Exception e)
+            {
+            }
+
+        }
         #endregion
        
 
@@ -1130,8 +1182,12 @@ namespace IoTbrain
 
         private void timer4_Tick(object sender, EventArgs e)
         {
-            Send_switch("SWITCH1", "SWITCH1=0");
-            log.AppendText("Ventilator automatically shut down" + "\r\n");
+            if (ventZapnut)
+            {
+                Send_switch("SWITCH1", "SWITCH1=0");
+                log.AppendText("Ventilator automatically shut down" + "\r\n");
+            }
+            blokace = false;
             timer4.Stop();
             
         }
@@ -1160,12 +1216,12 @@ namespace IoTbrain
                 {
                     if ((tPokoj - tObyvak > hyster))
                     {
-                        if (sw == false) Send_switch("SWITCH1", "SWITCH1=1");
+                        if (sw == false & blokace == false) Send_switch("SWITCH1", "SWITCH1=1");
 
                     }
                     else
                     {
-                        if (sw == true) Send_switch("SWITCH1", "SWITCH1=0");
+                        if (sw == true & blokace == false) Send_switch("SWITCH1", "SWITCH1=0");
                     }
 
                 }
@@ -1173,12 +1229,12 @@ namespace IoTbrain
                 {
                     if ((tObyvak - tPokoj > hyster))
                     {
-                        if (sw == false) Send_switch("SWITCH1", "SWITCH1=1");
+                        if (sw == false & blokace == false) Send_switch("SWITCH1", "SWITCH1=1");
 
                     }
                     else
                     {
-                        if (sw == true) Send_switch("SWITCH1", "SWITCH1=0");
+                        if (sw == true & blokace == false) Send_switch("SWITCH1", "SWITCH1=0");
                     }
 
                 }
@@ -1209,12 +1265,16 @@ namespace IoTbrain
             return !(end < now && now < start);
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            cilovyMail = textBox2.Text.ToString();
+        }
     }
-    
+
     #endregion
 
     #region jsonClassy
-    
+
     public class Product
     {
         public Boolean check;

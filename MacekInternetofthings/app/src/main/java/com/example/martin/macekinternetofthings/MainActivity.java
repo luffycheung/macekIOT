@@ -806,7 +806,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        AlertDialog.Builder aboutbuilder = new AlertDialog.Builder(MainActivity.this)
+       /* AlertDialog.Builder aboutbuilder = new AlertDialog.Builder(MainActivity.this)
                 .setView(R.layout.aboutdialog)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
@@ -814,14 +814,14 @@ public class MainActivity extends AppCompatActivity {
                         // continue with delete
                     }
                 });
-
+*/
 
 
 
 
 
        // final AlertDialog dialogIOT = builderIOT.create();
-        final AlertDialog about = aboutbuilder.create();
+       // final AlertDialog about = aboutbuilder.create();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.Brainsettings) {
@@ -929,7 +929,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.about) {
-            about.show();
+            //about.show();
             return true;
         }
         if (id == R.id.notifTick) {
@@ -1062,8 +1062,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Socket sockettp = new Socket();
-                sockettp.connect(new InetSocketAddress(InetAddress.getByName(IP),port),5000);
-                sockettp.setSoTimeout(5000);
+                sockettp.connect(new InetSocketAddress(InetAddress.getByName(IP),port),10000);
+                sockettp.setSoTimeout(10000);
                 if (sockettp.isBound()) {
                     connSucc = true;
                     PrintWriter out = new PrintWriter(new BufferedWriter(
@@ -1072,7 +1072,11 @@ public class MainActivity extends AppCompatActivity {
                     out.println(command);
                     BufferedReader in = new BufferedReader(new InputStreamReader(sockettp.getInputStream()));
                     char[] data = new char[8000];
+
+
                     in.read(data, 0, data.length);
+
+
                     response = new String(data).trim();
                     sockettp.close();
 
