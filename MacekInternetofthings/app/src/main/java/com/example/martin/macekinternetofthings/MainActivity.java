@@ -481,7 +481,7 @@ public class MainActivity extends AppCompatActivity {
                     //Snackbar.make(findViewById(android.R.id.content), "zapínám ventilátor", Snackbar.LENGTH_SHORT).show();
 
                 } else {
-                    Data.command_sw = "SWITCH1=0";
+                    Data.command_sw = "SWITCH1=0_"+ ventalarm.getText();
                     //Snackbar.make(findViewById(android.R.id.content), "vypínám ventilátor", Snackbar.LENGTH_SHORT).show();
                 }
 
@@ -579,6 +579,7 @@ public class MainActivity extends AppCompatActivity {
         ed.putBoolean("notif_en",Data.notif);
         ed.putInt("rgb",lastcolor);
         ed.putFloat("meritko",(float)Data.nasobic);
+        ed.putString("psw",Data.password);
         ed.commit();
 
 
@@ -595,7 +596,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences load = getSharedPreferences("app_data", MODE_PRIVATE);
 
-        SERVER_IP1 = load.getString("IP1","192.168.10.120");
+        SERVER_IP1 = load.getString("IP1","control.aurox.cz");
         SERVER_IP2 = load.getString("IP2","192.168.10.65");
         SERVERPORT1 = load.getInt("port1",90);
         SERVERPORT2 = load.getInt("port2",43333);
@@ -604,6 +605,7 @@ public class MainActivity extends AppCompatActivity {
         Data.nasobic = load.getFloat("meritko", 1);
         Data.notif = load.getBoolean("notif_en", true);
         Data.notifperiod = load.getInt("notif", 5);
+        Data.password = load.getString("psw", "nene");
 
         //new ZjistitTeploty().execute(SERVER_IP1,SERVERPORT1,"JSONteploty");
 
@@ -979,6 +981,40 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         }
+        if (id == R.id.perm) {
+            final Dialog dialog = new Dialog(context);
+            dialog.setContentView(R.layout.permissiondialog);
+            dialog.setTitle("Title");
+
+            Button ano = (Button) dialog.findViewById(R.id.button4);
+
+            TextView titulek = (TextView) dialog.findViewById(R.id.textView16);
+            //titulek.setText("Adresa PWM ovladače");
+            final EditText heslo=(EditText)dialog.findViewById(R.id.editText);
+            //final EditText port=(EditText)dialog.findViewById(R.id.editText2);
+
+
+
+            ano.setOnClickListener(new View.OnClickListener() {
+                //EditText edit=(EditText)dialog.findViewById(R.id.editText);
+
+
+                public void onClick(View v) {
+
+
+                    Data.password=heslo.getText().toString();
+
+                    dialog.dismiss();
+
+
+                }
+            });
+
+
+
+            dialog.show();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -1027,7 +1063,7 @@ public class MainActivity extends AppCompatActivity {
         SparkView sparkView2 = (SparkView) findViewById(R.id.sparkview3);
         SparkView sparkView3 = (SparkView) findViewById(R.id.sparkview4);
         SparkView sparkView4 = (SparkView) findViewById(R.id.sparkview5);
-
+        RelativeLayout extras = (RelativeLayout) findViewById(R.id.marL);
         String response1;
         String response2;
         String response3;
@@ -1147,6 +1183,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             prg.setVisibility(View.INVISIBLE);
+            if (Data.password.contains("prdelprdel")) extras.setVisibility(View.VISIBLE);
+            else extras.setVisibility(View.GONE);
+
+
+
+
+
             globalConnSucc = connSucc;
             if (connSucc) {
                 final Calendar c = Calendar.getInstance();

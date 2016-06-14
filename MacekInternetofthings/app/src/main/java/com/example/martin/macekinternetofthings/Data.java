@@ -14,6 +14,7 @@ public class Data {
     public static boolean notif;
     public static int notifperiod;
     public static String command_sw;
+    public static String password;
 
 
 }

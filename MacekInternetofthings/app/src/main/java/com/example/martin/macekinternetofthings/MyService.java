@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -60,12 +61,14 @@ public class MyService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-            if (ConnectedWIFI().contains("MANGO666") && Data.notif)
+            if (Data.notif)
         {
-
+            SharedPreferences load = getSharedPreferences("app_data", MODE_PRIVATE);
+           String SERVER_IP1 = load.getString("IP1","control.aurox.cz");
+           int SERVERPORT1 = load.getInt("port1",90);
 
             try {
-                response = new getTemp().execute("192.168.10.120",90,"JSONteploty").get();
+                response = new getTemp().execute(SERVER_IP1,SERVERPORT1,"JSONteploty").get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
