@@ -36,5 +36,7 @@ dependencies {
         compile 'org.apache.commons:commons-lang3:3.4'
         compile 'com.dmitrymalkovich.android:progress-fab:1.6'
         compile 'com.github.rubensousa:FloatingToolbar:0.3'
+
+
     }
 }

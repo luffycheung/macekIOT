@@ -53,10 +53,13 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.Closeable;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -502,10 +505,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //endregion
-        seekBarMeritko.setProgress((int)Data.nasobic*100);
-        handler.postDelayed(StartRefresh, 1000);
 
-        new Thread(new ServiceStartThread()).start();
+
+        startService(new Intent(MainActivity.this, MyService.class));
+        seekBarMeritko.setProgress((int)Data.nasobic*100);
+        handler.postDelayed(StartRefresh, 4000);
+
+       // new Thread(new ServiceStartThread()).start();
 
 
     }
@@ -1089,6 +1095,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             String result="null";
+            boolean end = false;
 
             try {
 
@@ -1098,22 +1105,33 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Socket sockettp = new Socket();
-                sockettp.connect(new InetSocketAddress(InetAddress.getByName(IP),port),10000);
-                sockettp.setSoTimeout(10000);
+                sockettp.connect(new InetSocketAddress(InetAddress.getByName(IP),port),4000);
+                sockettp.setSoTimeout(4000);
                 if (sockettp.isBound()) {
                     connSucc = true;
                     PrintWriter out = new PrintWriter(new BufferedWriter(
                             new OutputStreamWriter(sockettp.getOutputStream())),
                             true);
                     out.println(command);
-                    BufferedReader in = new BufferedReader(new InputStreamReader(sockettp.getInputStream()));
+
+                    InputStream instream = sockettp.getInputStream();
+                    InputStreamReader instr = new InputStreamReader(instream);
+
+
                     char[] data = new char[8000];
 
 
-                    in.read(data, 0, data.length);
+                    //byte[] data= IOUtils.toByteArray(new InputStreamReader(sockettp.getInputStream()));
+                    try {
+                        Thread.sleep(3000);
+                    }
+                    catch (InterruptedException e){}
+                    BufferedReader in = new BufferedReader(instr);
+                    in.read(data,0,data.length);
 
 
                     response = new String(data).trim();
+
                     sockettp.close();
 
                     Gson gson = new GsonBuilder().create();
@@ -1449,4 +1467,5 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
+
 

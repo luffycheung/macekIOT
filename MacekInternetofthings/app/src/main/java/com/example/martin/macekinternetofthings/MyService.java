@@ -28,6 +28,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -169,8 +170,19 @@ public class MyService extends Service {
                             new OutputStreamWriter(sockettp.getOutputStream())),
                             true);
                     out.println(command);
-                    BufferedReader in = new BufferedReader(new InputStreamReader(sockettp.getInputStream()));
+                   // BufferedReader in = new BufferedReader(new InputStreamReader(sockettp.getInputStream()));
+
+
+                    InputStream instream = sockettp.getInputStream();
+                    InputStreamReader instr = new InputStreamReader(instream);
                     char[] data = new char[8000];
+
+                    try {
+                        Thread.sleep(3000);
+                    }
+                    catch (InterruptedException e){}
+
+                    BufferedReader in = new BufferedReader(instr);
                     in.read(data, 0, data.length);
                     response = new String(data).trim();
                     sockettp.close();
