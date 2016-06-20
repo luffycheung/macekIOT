@@ -144,6 +144,7 @@ public class MyService extends Service {
 
 
         String response;
+        StringBuilder responseBuilder = new StringBuilder();
         boolean connSucc = false;
         String IP;
         int port;
@@ -175,16 +176,26 @@ public class MyService extends Service {
 
                     InputStream instream = sockettp.getInputStream();
                     InputStreamReader instr = new InputStreamReader(instream);
-                    char[] data = new char[8000];
-
-                    try {
-                        Thread.sleep(3000);
-                    }
-                    catch (InterruptedException e){}
-
                     BufferedReader in = new BufferedReader(instr);
-                    in.read(data, 0, data.length);
-                    response = new String(data).trim();
+
+
+                    char[] head = new char[6];
+
+                    in.read(head,0,head.length);
+                    String delk = new String(head);
+                    int delka = Integer.parseInt(delk);
+                    int value;
+                    responseBuilder.setLength(0);
+                    while ((responseBuilder.length() < delka)){
+
+                        value = in.read();
+                        responseBuilder.append((char)value);
+
+                    };
+
+
+                    response = responseBuilder.toString();
+
                     sockettp.close();
 
 

@@ -92,9 +92,9 @@ public class MainActivity extends AppCompatActivity {
     private String SERVER_IP2;
     private String command = "";
    // private String command_sw = "";
-    private String PWMcommand = "";
-    private String PWMcommand1 = "";
-    private String PWMcommand2 = "";
+    private int PWMcommand;
+    private int PWMcommand1;
+    private int PWMcommand2;
     //StringBuffer response = new StringBuffer();
     private String response_sw = "aa";
     private String response_tp;
@@ -216,9 +216,9 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // TODO Auto-generated method stub
                 //int progress = seekBar1.getProgress();
-                if (abs(prevVal-progress)>10) {
+                if (abs(prevVal-progress)>5) {
 
-                    PWMcommand = ("PWMD5=" + progress);
+                    PWMcommand1 = progress;
                     new Thread(new PWMThread()).start();
                     prevVal = progress;
                     try {
@@ -253,8 +253,8 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // TODO Auto-generated method stub
                 //int progress = seekBar1.getProgress();
-                if (abs(prevVal-progress)>10) {
-                PWMcommand = ("PWMD6=" + progress);
+                if (abs(prevVal-progress)>5) {
+                PWMcommand2 = progress;
                 new Thread(new PWMThread()).start();
                     try {
                         Thread.sleep(20);
@@ -289,12 +289,12 @@ public class MainActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 //int progress = seekBar1.getProgress();
 
-                if (abs(prevVal-progress)>10) {
+                if (abs(prevVal-progress)>5) {
 
                     //if (chck.isChecked()) progress = Math.round(progress / 2);
 
 
-                    PWMcommand1 = ("PWMD7=" + progress);
+                    PWMcommand = progress;
 
 
                     new Thread(new PWMThread()).start();
@@ -349,6 +349,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 try{
+
+                    PWMcommand = 0; //R
+                    PWMcommand1 = 0; //G
+                    PWMcommand2 = 0; //B
+                    new Thread(new PWMThread()).start();
+
+
+                    Thread.sleep(delay);
                    seekBarR.setProgress(0);
                     Thread.sleep(delay);
                     seekBarG.setProgress(0);
@@ -397,9 +405,9 @@ public class MainActivity extends AppCompatActivity {
                             public void onColorSelected(int selectedColor) {
                                 // toast("onColorSelected: 0x" + Integer.toHexString(selectedColor));
 
-                                PWMcommand = ("PWMD7=" + Color.red(selectedColor)); //R
-                                PWMcommand1 = ("PWMD5=" + Color.green(selectedColor)); //G
-                                PWMcommand2 = ("PWMD6=" + Color.blue(selectedColor)); //B
+                                PWMcommand = Color.red(selectedColor)*3; //R
+                                PWMcommand1 = Color.green(selectedColor)*3; //G
+                                PWMcommand2 = Color.blue(selectedColor)*4; //B
                                 new Thread(new PWMThread()).start();
 
                             }
@@ -434,6 +442,14 @@ public class MainActivity extends AppCompatActivity {
         all.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try{
+
+
+                    PWMcommand = 1023; //R
+                    PWMcommand1 = 1023; //G
+                    PWMcommand2 = 1023; //B
+                    new Thread(new PWMThread()).start();
+
+                    Thread.sleep(delay);
                     seekBarR.setProgress(1023);
                     Thread.sleep(delay);
                     seekBarG.setProgress(1023);
@@ -509,7 +525,7 @@ public class MainActivity extends AppCompatActivity {
 
         startService(new Intent(MainActivity.this, MyService.class));
         seekBarMeritko.setProgress((int)Data.nasobic*100);
-        handler.postDelayed(StartRefresh, 4000);
+        handler.postDelayed(StartRefresh, 2000);
 
        // new Thread(new ServiceStartThread()).start();
 
@@ -686,11 +702,8 @@ public class MainActivity extends AppCompatActivity {
                     PrintWriter out = new PrintWriter(new BufferedWriter(
                             new OutputStreamWriter(socket.getOutputStream())),
                             true);
-                    out.println(PWMcommand);
-                    Thread.sleep(100);
-                    out.println(PWMcommand1);
-                    Thread.sleep(100);
-                    out.println(PWMcommand2);
+
+                    out.println("PWM_"+String.format("%04d", PWMcommand)+"_"+String.format("%04d", PWMcommand1)+"_"+String.format("%04d", PWMcommand2));
 
 
                     socket.close();
@@ -699,9 +712,8 @@ public class MainActivity extends AppCompatActivity {
                     e1.printStackTrace();
                 } catch (IOException e1) {
                     e1.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
+
             }
 
         }
@@ -1076,6 +1088,7 @@ public class MainActivity extends AppCompatActivity {
         String response4;
         String response5;
         String response6;
+        StringBuilder responseBuilder = new StringBuilder();
         String response;
         boolean connSucc = false;
         String IP;
@@ -1118,19 +1131,24 @@ public class MainActivity extends AppCompatActivity {
                     InputStreamReader instr = new InputStreamReader(instream);
 
 
-                    char[] data = new char[8000];
 
-
-                    //byte[] data= IOUtils.toByteArray(new InputStreamReader(sockettp.getInputStream()));
-                    try {
-                        Thread.sleep(3000);
-                    }
-                    catch (InterruptedException e){}
+                    char[] head = new char[6];
                     BufferedReader in = new BufferedReader(instr);
-                    in.read(data,0,data.length);
+                    in.read(head,0,head.length);
+                    String delk = new String(head);
+                    int delka = Integer.parseInt(delk);
+
+                    int value;
+                    responseBuilder.setLength(0);
+                    while ((responseBuilder.length() < delka)){
+
+                        value = in.read();
+                        responseBuilder.append((char)value);
+
+                    };
 
 
-                    response = new String(data).trim();
+                    response = responseBuilder.toString();
 
                     sockettp.close();
 

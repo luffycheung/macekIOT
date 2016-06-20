@@ -1088,16 +1088,16 @@ namespace IoTbrain
                 {
                     double t1;
                     double t2;
-                   double.TryParse(tObyvak[i].ToString(), out t2);
-                    double.TryParse(tPokoj[i].ToString(),  out t1);
+                    double.TryParse(tObyvak[i].ToString(), out t2);
+                    double.TryParse(tPokoj[i].ToString(), out t1);
 
-                    tDelta.Add((float) (t1-t2));
+                    tDelta.Add((float)(t1 - t2));
                 }
-                    
 
 
 
-                product.teplomery.Add(new  Teplomer{ id = "1", teplota = SQL_last_temp("temp1_1"), teploty = tObyvak });
+
+                product.teplomery.Add(new Teplomer { id = "1", teplota = SQL_last_temp("temp1_1"), teploty = tObyvak });
                 product.teplomery.Add(new Teplomer { id = "2", teplota = SQL_last_temp("temp3_1"), teploty = tPokoj });
                 product.teplomery.Add(new Teplomer { id = "3", teplota = SQL_last_temp("temp2_3"), teploty = tVenek }); //venek
                 product.teplomery.Add(new Teplomer { id = "4", teplota = rozdil.ToString(), teploty = tDelta });
@@ -1105,18 +1105,18 @@ namespace IoTbrain
                 product.teplomery.Add(new Teplomer { id = "6", teplota = SQL_last_temp("temp2_1"), teploty = tBazen2 }); //bazen-poklop
                 product.teplomery.Add(new Teplomer { id = "7", teplota = SQL_last_temp("temp2_4"), teploty = tESP }); //teplota ESP
 
-                if ((tVenek.Count < 2 || tBazen1.Count < 2 || tBazen2.Count < 2 || tESP.Count < 2) && DateTime.Now.Hour > 4)
+                if ((tVenek.Count < 6 || tBazen1.Count < 6 || tBazen2.Count < 6 || tESP.Count < 6) && DateTime.Now.Hour > 4)
                 {
                     SendMail("ERROR", "Počet hlášení od venkovního teploměru je podezřele nízký" + "\r\n" + "\r\n"
                                + "počty hlášení: " + "\r\n"
-                               + "venek (temp2_3): " +tVenek.Count.ToString() + "\r\n"
+                               + "venek (temp2_3): " + tVenek.Count.ToString() + "\r\n"
                                + "bazen voda (temp2_2): " + tBazen1.Count.ToString() + "\r\n"
                                + "bazen poklop (temp2_1): " + tBazen2.Count.ToString() + "\r\n"
                                + "ESP (temp2_4): " + tESP.Count.ToString() + "\r\n");
                 }
                 json = JsonConvert.SerializeObject(product);
-                
-                return json;
+                string size = (json.Length).ToString("000000");
+                return (size + json);
             }
             catch
             {
